@@ -30,7 +30,7 @@ public class Skill {
         this.skillName = skillName;
         this.maxLevel = maxLevel;
         this.totalXp = totalXp;
-        this.currentLevel = 1;
+        this.currentLevel = this.getLevelFromXP(totalXp);
         this.xpToNextLevel = BASE_LEVEL_XP;
     }
 
@@ -44,9 +44,41 @@ public class Skill {
     }
 
     public void levelUp(){
-        this.currentLevel++;
-        this.xpToNextLevel = BASE_LEVEL_XP * this.currentLevel;
+        while(totalXp > this.getXpToAnyLevel(this.currentLevel + 1)){
+            this.currentLevel++;
+            this.xpToNextLevel = (BASE_LEVEL_XP * this.currentLevel) - (totalXp - this.getXpToCurrentLevel());
+        }
+
         System.out.println("You've leveled up " + this.skillName + ". You are now level " + this.currentLevel);
+    }
+
+    //returns an int of the amount of XP requird to reach the level just before their current.
+    public int getXpToCurrentLevel(){
+        int out = 0;
+        for(int i = 1; i < this.currentLevel; i++){
+            out += BASE_LEVEL_XP * i;
+        }
+
+        return out;
+    }
+
+    public int getXpToAnyLevel(int lvl){
+        int out = 0;
+        for(int i = 1; i < lvl; i++){
+            out += BASE_LEVEL_XP * i;
+        }
+
+        return out;
+    }
+
+    public int getLevelFromXP(int xp){
+        int lvl = 1;
+
+        while(xp > this.getXpToAnyLevel(lvl + 1)){
+            lvl++;
+        }
+
+        return lvl;
     }
 
     public int getMaxLevel() {
@@ -71,9 +103,6 @@ public class Skill {
     }
     public void setSkillName(String skillName) {
         this.skillName = skillName;
-    }
-    public void setCurrentLevel(int currentLevel) {
-        this.currentLevel = currentLevel;
     }
     public void setXpToNextLevel(int xpToNextLevel) {
         this.xpToNextLevel = xpToNextLevel;

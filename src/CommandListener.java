@@ -37,7 +37,7 @@ public class CommandListener {
                 printHelp();
                 break;
             case "level":
-                player.printMiningLevel();
+                player.getPlayerSkills().getMiningSkill().printMiningLevel();
                 break;
             case "mine":
                 player.mine();

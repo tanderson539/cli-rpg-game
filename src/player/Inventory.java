@@ -10,12 +10,12 @@ public class Inventory {
 
     public Inventory(int maxSlots) {
         this.maxSlots = maxSlots;
-        items = new ArrayList<InventorySlot>(maxSlots);
+        items = new ArrayList<>(maxSlots);
     }
 
     public void addItem(Item item) {
         for (InventorySlot slot : items) {
-            if (slot.getItem().getName().equals(item.getName())) {
+            if (slot.getItem().getName().equals(item.getName()) && item.isStackable()) {
                 slot.addAmount(1);
                 return;
             }
@@ -23,12 +23,14 @@ public class Inventory {
 
         if(items.size() < maxSlots) {
             items.add(new InventorySlot(items.size(), item, 1));
+        } else {
+            System.out.println("Inventory full!");
         }
     }
 
     public void addItem(Item item, int amount) {
         for (InventorySlot slot : items) {
-            if (slot.getItem().getName().equals(item.getName())) {
+            if (slot.getItem().getName().equals(item.getName()) && item.isStackable()) {
                 slot.addAmount(amount);
                 return;
             }
