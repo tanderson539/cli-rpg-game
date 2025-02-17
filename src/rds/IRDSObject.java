@@ -11,6 +11,7 @@ public interface IRDSObject {
     void setIsUnique(boolean isUnique);
     void setDropsAlways(boolean dropsAlways);
 
+
     @Override
     String toString();
 }

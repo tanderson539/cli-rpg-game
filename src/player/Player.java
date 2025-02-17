@@ -1,13 +1,14 @@
 package player;
 
-import items.ores.Ore_Copper;
-import skills.*;
+import items.DroppableItem;
+import items.Item;
+import rds.tables.OreTable;
 
 public class Player {
     private String playerName;
-    private PlayerSkills playerSkills;
+    private final PlayerSkills playerSkills;
 
-    private Inventory inventory;
+    private final Inventory inventory;
 
     public Player(String playerName){
         this.playerName = playerName;
@@ -16,8 +17,14 @@ public class Player {
     }
 
     public void mine() {
-        playerSkills.miningSkill.grantXp(31);
-        inventory.addItem(new Ore_Copper(1, false, true, false));
+        OreTable table = new OreTable();
+
+        DroppableItem[] oreDropped = table.runTable();
+
+        for(int i = 0; i < oreDropped.length; i++) {
+            playerSkills.miningSkill.grantXp(5);
+            inventory.addItem((Item) oreDropped[i]);
+        }
 
         System.out.println("You mined some ore!");
     }

@@ -1,24 +1,27 @@
 package rds;
 
-public class RDSObject implements IRDSObject{
+public class RDSObject<T> implements IRDSObject{
 
     private double probability;
-    boolean dropsAlways;
-    boolean isUnique;
-    boolean isEnabled;
+    private boolean dropsAlways;
+    private boolean isUnique;
+    private boolean isEnabled;
+    private T associatedObject;
 
-    public RDSObject(double probability){
+    public RDSObject(T associatedObject, double probability){
         this.probability = probability;
         this.dropsAlways = false;
         this.isUnique = false;
         this.isEnabled = true;
+        this.associatedObject = associatedObject;
     }
 
-    public RDSObject(double probability, boolean dropsAlways, boolean isUnique, boolean isEnabled) {
+    public RDSObject(T associatedObject, double probability, boolean dropsAlways, boolean isUnique, boolean isEnabled) {
         this.probability = probability;
         this.dropsAlways = dropsAlways;
         this.isUnique = isUnique;
         this.isEnabled = isEnabled;
+        this.associatedObject = associatedObject;
     }
 
     //Getters/Setters
@@ -61,5 +64,12 @@ public class RDSObject implements IRDSObject{
     @Override
     public void setDropsAlways(boolean dropsAlways) {
         this.dropsAlways = dropsAlways;
+    }
+
+    public T getAssociatedObject() {
+        return associatedObject;
+    }
+    public void setAssociatedObject(T associatedObject) {
+        this.associatedObject = associatedObject;
     }
 }

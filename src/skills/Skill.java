@@ -52,7 +52,7 @@ public class Skill {
         System.out.println("You've leveled up " + this.skillName + ". You are now level " + this.currentLevel);
     }
 
-    //returns an int of the amount of XP requird to reach the level just before their current.
+    //returns an int of the amount of XP required to reach their  current level.
     public int getXpToCurrentLevel(){
         int out = 0;
         for(int i = 1; i < this.currentLevel; i++){

@@ -1,4 +1,9 @@
+import items.DroppableItem;
+import items.ores.Ore_Copper;
+import items.ores.Ore_Iron;
 import player.Player;
+import rds.RDSObject;
+import rds.RDSTable;
 
 import java.util.Scanner;
 
@@ -8,6 +13,7 @@ public class App {
         Scanner scanner = new Scanner(System.in);
 
         Player player = new Player("Player 1");
+
 
         CommandListener cmdListener = new CommandListener(player, scanner);
 
