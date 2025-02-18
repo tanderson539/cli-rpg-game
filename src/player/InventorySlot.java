@@ -15,7 +15,7 @@ public class InventorySlot {
 
     @Override
     public String toString(){
-        return "[Slot " + index + "] - " + item.getName() + " x" + amount;
+        return "[Slot " + (index + 1) + "] - " + item.getName() + " x" + amount;
     }
 
     public void addAmount(int amount) {

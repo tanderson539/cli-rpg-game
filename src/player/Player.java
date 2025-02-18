@@ -24,9 +24,9 @@ public class Player {
         for(int i = 0; i < oreDropped.length; i++) {
             playerSkills.miningSkill.grantXp(5);
             inventory.addItem((Item) oreDropped[i]);
+            System.out.println("You mined some " + oreDropped[i].getName());
         }
 
-        System.out.println("You mined some ore!");
     }
 
     public String getPlayerName() {

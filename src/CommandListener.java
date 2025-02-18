@@ -53,7 +53,12 @@ public class CommandListener {
                 player.getInventory().printInventory();
                 break;
             case "rand":
-                System.out.println("" + rand.genDouble(20.0));
+                double max = 20.0;
+
+                if(words.length > 1){
+                    max = Double.parseDouble(words[1]);
+                }
+                System.out.println("" + rand.genDouble(max));
                 break;
             case "loot":
                 OreTable table = new OreTable();
@@ -78,6 +83,9 @@ public class CommandListener {
         System.out.println("help - shows this help message");
         System.out.println("hello - prints 'Hi!'");
         System.out.println("mine - mines some ore!");
+        System.out.println("inv - shows inventory");
+        System.out.println("rand - shows random number");
+        System.out.println("loot - runs the ore table for debug testing");
         System.out.println("exit - exits the game");
     }
 }

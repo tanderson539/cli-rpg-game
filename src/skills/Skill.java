@@ -44,7 +44,7 @@ public class Skill {
     }
 
     public void levelUp(){
-        while(totalXp > this.getXpToAnyLevel(this.currentLevel + 1)){
+        while(totalXp >= this.getXpToAnyLevel(this.currentLevel + 1)){
             this.currentLevel++;
             this.xpToNextLevel = (BASE_LEVEL_XP * this.currentLevel) - (totalXp - this.getXpToCurrentLevel());
         }
