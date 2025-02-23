@@ -1,4 +1,5 @@
 import items.DroppableItem;
+import org.apache.commons.lang3.StringUtils;
 import player.Player;
 import rds.RDSRandom;
 import rds.tables.OreTable;
@@ -51,6 +52,22 @@ public class CommandListener {
                 break;
             case "inv":
                 player.getInventory().printInventory();
+                break;
+            case "drop":
+                if(words.length == 1 || words.length == 2){
+                    System.out.println("too few arguments, please type an inventory index and an amount");
+                }else {
+                    if(StringUtils.isNumeric(words[1]) && StringUtils.isNumeric(words[2])){
+                        int idx = Integer.parseInt(words[1]) - 1;
+                        int amount = Integer.parseInt(words[2]);
+
+                        System.out.println("attempting to remove actual index" + idx + " and " + amount);
+
+                        player.getInventory().removeItem(idx, amount);
+                    }else{
+                        System.out.println("Command format: drop <index> <amount>");
+                    }
+                }
                 break;
             case "rand":
                 double max = 20.0;

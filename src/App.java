@@ -14,7 +14,6 @@ public class App {
 
         Player player = new Player("Player 1");
 
-
         CommandListener cmdListener = new CommandListener(player, scanner);
 
         cmdListener.update();

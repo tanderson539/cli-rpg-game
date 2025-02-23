@@ -6,6 +6,7 @@ public class RDSObject<T> implements IRDSObject{
     private boolean dropsAlways;
     private boolean isUnique;
     private boolean isEnabled;
+
     private T associatedObject;
 
     public RDSObject(T associatedObject, double probability){
@@ -13,6 +14,7 @@ public class RDSObject<T> implements IRDSObject{
         this.dropsAlways = false;
         this.isUnique = false;
         this.isEnabled = true;
+
         this.associatedObject = associatedObject;
     }
 
@@ -22,6 +24,22 @@ public class RDSObject<T> implements IRDSObject{
         this.isUnique = isUnique;
         this.isEnabled = isEnabled;
         this.associatedObject = associatedObject;
+    }
+
+    public RDSObject(T associatedObject, double probability, int min, int max){
+        this.associatedObject = associatedObject;
+        this.probability = probability;
+        this.dropsAlways = false;
+        this.isUnique = false;
+        this.isEnabled = true;
+    }
+
+    public RDSObject(T associatedObject, double probability, int min, int max, boolean dropsAlways, boolean isUnique, boolean isEnabled){
+        this.associatedObject = associatedObject;
+        this.probability = probability;
+        this.dropsAlways = dropsAlways;
+        this.isUnique = isUnique;
+        this.isEnabled = isEnabled;
     }
 
     //Getters/Setters

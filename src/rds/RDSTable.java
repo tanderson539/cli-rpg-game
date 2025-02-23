@@ -38,10 +38,10 @@ public class RDSTable {
             return null;
         }
 
-        System.out.println("running table...");
-
         int totalDrops = this.totalDrops;
         int dropArrIdx = 0;
+
+        ArrayList<RDSObject<?>> table = this.table;
 
         DroppableItem[] dropArr = new DroppableItem[totalDrops];
 
@@ -50,15 +50,20 @@ public class RDSTable {
         for(int i = 0; i < itemsMarkedAlways.size(); i++){
             if(itemsMarkedAlways.get(i).getAssociatedObject() instanceof DroppableItem){
                 dropArr[i] = (DroppableItem) itemsMarkedAlways.get(i).getAssociatedObject();
+            }else if(itemsMarkedAlways.get(i).getAssociatedObject() instanceof RDSTable){
+                dropArr[i] = ((RDSTable) itemsMarkedAlways.get(i).getAssociatedObject()).runTable()[0];
             }
         }
+
+        table = filterOutAlwaysAndDisabled();
 
         totalDrops -= itemsMarkedAlways.size();
         dropArrIdx += itemsMarkedAlways.size();
 
         if(totalDrops > 0){
             for(int i = 0; i < totalDrops; i++){
-                dropArr[dropArrIdx] = getNormalDrop();
+                dropArr[dropArrIdx] = getNormalDrop(table);
+                System.out.println("Size of table: " + table.size());
                 dropArrIdx++;
             }
         }
@@ -78,18 +83,27 @@ public class RDSTable {
         return markedAlways;
     }
 
-    private DroppableItem getNormalDrop() {
+    private DroppableItem getNormalDrop(ArrayList<RDSObject<?>> table) {
         double randHit = this.rand.genDouble(this.totalProbability);
         double currVal = 0.0;
 
         DroppableItem item = null;
 
-        for (RDSObject<?> rdsObject : this.table) {
+        for (RDSObject<?> rdsObject : table) {
             currVal += rdsObject.getProbability();
 
             if (currVal > randHit) {
                 if (rdsObject.getAssociatedObject() instanceof DroppableItem) {
                     item = (DroppableItem) rdsObject.getAssociatedObject();
+                    if(rdsObject.isUnique()){
+                        table.remove(rdsObject);
+                    }
+                    break;
+                }else if(rdsObject.getAssociatedObject() instanceof RDSTable){
+                    item = ((RDSTable) rdsObject.getAssociatedObject()).runTable()[0];
+                    break;
+                }else if(rdsObject.getAssociatedObject() == null){
+                    System.out.println("Dropping nothing!");
                     break;
                 }
             }

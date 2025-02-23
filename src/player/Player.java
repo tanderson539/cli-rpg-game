@@ -17,16 +17,18 @@ public class Player {
     }
 
     public void mine() {
+        //TODO: When functionality to item amounts are added to RDSTables, refactor to include item amounts
         OreTable table = new OreTable();
 
         DroppableItem[] oreDropped = table.runTable();
 
-        for(int i = 0; i < oreDropped.length; i++) {
-            playerSkills.miningSkill.grantXp(5);
-            inventory.addItem((Item) oreDropped[i]);
-            System.out.println("You mined some " + oreDropped[i].getName());
+        for (DroppableItem droppableItem : oreDropped) {
+            if (droppableItem != null) {
+                playerSkills.miningSkill.grantXp(5);
+                inventory.addItem((Item) droppableItem);
+                System.out.println("You mined some " + droppableItem.getName());
+            }
         }
-
     }
 
     public String getPlayerName() {
