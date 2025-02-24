@@ -1,7 +1,6 @@
 package player;
 
-import items.DroppableItem;
-import items.Item;
+import items.ItemRecord;
 import rds.tables.OreTable;
 
 public class Player {
@@ -17,16 +16,14 @@ public class Player {
     }
 
     public void mine() {
-        //TODO: When functionality to item amounts are added to RDSTables, refactor to include item amounts
         OreTable table = new OreTable();
 
-        DroppableItem[] oreDropped = table.runTable();
+        ItemRecord[] ores = table.runTable();
 
-        for (DroppableItem droppableItem : oreDropped) {
-            if (droppableItem != null) {
+        for (ItemRecord ore : ores) {
+            if (ore != null) {
                 playerSkills.miningSkill.grantXp(5);
-                inventory.addItem((Item) droppableItem);
-                System.out.println("You mined some " + droppableItem.getName());
+                inventory.addItem(ore.getItem(), ore.getAmount());
             }
         }
     }

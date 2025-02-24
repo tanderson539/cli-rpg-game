@@ -1,9 +1,4 @@
-import items.DroppableItem;
-import items.ores.Ore_Copper;
-import items.ores.Ore_Iron;
 import player.Player;
-import rds.RDSObject;
-import rds.RDSTable;
 
 import java.util.Scanner;
 

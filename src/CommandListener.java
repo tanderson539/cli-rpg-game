@@ -1,4 +1,4 @@
-import items.DroppableItem;
+import items.ItemRecord;
 import org.apache.commons.lang3.StringUtils;
 import player.Player;
 import rds.RDSRandom;
@@ -80,14 +80,14 @@ public class CommandListener {
             case "loot":
                 OreTable table = new OreTable();
 
-                DroppableItem[] droppableItem;
+                ItemRecord[] items;
 
-                droppableItem = table.runTable();
+                items = table.runTable();
 
-                if(droppableItem.length == 0){
+                if(items.length == 0){
                     System.out.println("Nothing dropped!");
                 }else {
-                    System.out.println("Dropped: " + droppableItem[0].getName());
+                    System.out.println("Dropped: " + items[0].getItem().getName());
                 }
                 break;
             default:

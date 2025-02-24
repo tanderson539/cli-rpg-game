@@ -30,6 +30,30 @@ public class Inventory {
         this.addItem(item, 1);
     }
 
+    public void addItem(ItemRecord itemRecord) {
+        for (InventorySlot slot : items) {
+            if (slot.isItemNull()) {
+                continue;
+            }else if (slot.getItem().getName().equals(itemRecord.getItem().getName()) && itemRecord.getItem().isStackable()) {
+                slot.getItemRecord().addAmount(itemRecord.getAmount());
+                return;
+            }
+        }
+
+        int idxToAdd = this.getNextIndexWithoutItem();
+
+        if(idxToAdd >= 0) {
+            items.get(idxToAdd).setItem(itemRecord);
+            items.get(idxToAdd).setIndex(idxToAdd);
+        } else {
+            System.out.println("Inventory full!");
+        }
+    }
+
+    public void addItem(int index, ItemRecord itemRecord) {
+        this.addItem(index, itemRecord.getItem(), itemRecord.getAmount());
+    }
+
     /**
      * Attempts to put a new ItemRecord Object at the next available index with the following parameters.
      * This function creates a new ItemRecord utilizing the item and amount parameters and adds that to the inventory.
@@ -39,24 +63,9 @@ public class Inventory {
      * @param amount The Integer amount of the item to place at the specified index.
      */
     public void addItem(Item item, int amount) {
-        for (InventorySlot slot : items) {
-            if (slot.isItemNull()) {
-                continue;
-            }else if (slot.getItem().getName().equals(item.getName()) && item.isStackable()) {
-                slot.getItemRecord().addAmount(amount);
-                return;
-            }
-        }
+        ItemRecord itemRecord = new ItemRecord(item, amount);
 
-        int idxToAdd = this.getNextIndexWithoutItem();
-
-        if(idxToAdd >= 0) {
-            System.out.println("adding new item to inventory at index " + idxToAdd);
-            items.get(idxToAdd).setItem(new ItemRecord(item, amount));
-            items.get(idxToAdd).setIndex(idxToAdd);
-        } else {
-            System.out.println("Inventory full!");
-        }
+        this.addItem(itemRecord);
     }
 
     /**

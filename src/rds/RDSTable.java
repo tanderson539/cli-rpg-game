@@ -1,12 +1,17 @@
 package rds;
 
-import items.DroppableItem;
+import items.ItemRecord;
 
 import java.util.ArrayList;
 
-public class RDSTable {
+/**
+ * Random Distribution System Table.
+ * A data type that holds and controls drop table objects. Contains methods and attributes used to randomly pick
+ * an object from a list of items with varying attributes and probabilities.
+ */
+public class RDSTable implements SubTableTableEntry {
 
-    private final ArrayList<RDSObject<?>> table;
+    private final ArrayList<RDSObject<? extends TableEntry>> table;
     private double totalProbability;
     private final int totalDrops;
     private final RDSRandom rand;
@@ -18,22 +23,22 @@ public class RDSTable {
         this.rand = new RDSRandom();
     }
 
-    public RDSTable(ArrayList<RDSObject<?>> table, int totalDrops) {
+    public RDSTable(ArrayList<RDSObject<? extends TableEntry>> table, int totalDrops) {
         this.table = table;
         this.totalDrops = totalDrops;
         this.rand = new RDSRandom();
 
-        for (RDSObject<?> obj : table) {
+        for (RDSObject<? extends TableEntry> obj : table) {
             this.totalProbability += obj.getProbability();
         }
     }
 
-    public boolean add(RDSObject<?> object) {
+    public boolean add(RDSObject<? extends TableEntry> object) {
         this.totalProbability += object.getProbability();
         return table.add(object);
     }
 
-    public DroppableItem[] runTable(){
+    public ItemRecord[] runTable(){
         if (table.isEmpty()) {
             return null;
         }
@@ -41,40 +46,55 @@ public class RDSTable {
         int totalDrops = this.totalDrops;
         int dropArrIdx = 0;
 
-        ArrayList<RDSObject<?>> table = this.table;
+        ItemRecord[] dropArr = new ItemRecord[totalDrops];
 
-        DroppableItem[] dropArr = new DroppableItem[totalDrops];
+        ArrayList<RDSObject<? extends TableEntry>> itemsMarkedAlways = this.getObjectsMarkedAlways();
 
-        ArrayList<RDSObject<?>> itemsMarkedAlways = this.getObjectsMarkedAlways();
+        ArrayList<RDSObject<? extends TableEntry>> currTable = this.table;
+        double totalProb = this.totalProbability;
 
-        for(int i = 0; i < itemsMarkedAlways.size(); i++){
-            if(itemsMarkedAlways.get(i).getAssociatedObject() instanceof DroppableItem){
-                dropArr[i] = (DroppableItem) itemsMarkedAlways.get(i).getAssociatedObject();
-            }else if(itemsMarkedAlways.get(i).getAssociatedObject() instanceof RDSTable){
-                dropArr[i] = ((RDSTable) itemsMarkedAlways.get(i).getAssociatedObject()).runTable()[0];
+        for (RDSObject<? extends TableEntry> currItem : itemsMarkedAlways) {
+            if (currItem.isItemDrop() && currItem instanceof RDSItemDrop drop) {
+                dropArr[dropArrIdx] = drop.generateItemRecord(this.rand);
+                dropArrIdx++;
+
+            } else if (currItem.isTable() && currItem.getAssociatedObject() instanceof RDSTable drop) {
+                dropArr[dropArrIdx] = drop.runTable()[0];
+                dropArrIdx++;
+            }
+
+            if (currItem.isUnique()) {
+                currTable.remove(currItem);
+                totalProb -= currItem.getProbability();
             }
         }
 
-        table = filterOutAlwaysAndDisabled();
+        currTable = filterOutAlwaysAndDisabled();
 
-        totalDrops -= itemsMarkedAlways.size();
-        dropArrIdx += itemsMarkedAlways.size();
+        totalDrops -= dropArrIdx;
 
         if(totalDrops > 0){
             for(int i = 0; i < totalDrops; i++){
-                dropArr[dropArrIdx] = getNormalDrop(table);
-                System.out.println("Size of table: " + table.size());
+                dropArr[dropArrIdx] = getNormalDrop(currTable, totalProb);
+
                 dropArrIdx++;
+            }
+        }
+
+        System.out.println("Dropped Items:");
+        for (ItemRecord item : dropArr) {
+            if(item != null){
+                System.out.println(item.getAmount() + "x " + item.getItem().getName());
             }
         }
 
         return dropArr;
     }
 
-    private ArrayList<RDSObject<?>> getObjectsMarkedAlways() {
-        ArrayList<RDSObject<?>> markedAlways = new ArrayList<>();
+    private ArrayList<RDSObject<? extends TableEntry>> getObjectsMarkedAlways() {
+        ArrayList<RDSObject<? extends TableEntry>> markedAlways = new ArrayList<>();
 
-        for (RDSObject<?> obj : table) {
+        for (RDSObject<? extends TableEntry> obj : table) {
             if(obj.dropsAlways() && obj.isEnabled()){
                 markedAlways.add(obj);
             }
@@ -83,26 +103,27 @@ public class RDSTable {
         return markedAlways;
     }
 
-    private DroppableItem getNormalDrop(ArrayList<RDSObject<?>> table) {
-        double randHit = this.rand.genDouble(this.totalProbability);
+    private ItemRecord getNormalDrop(ArrayList<RDSObject<? extends TableEntry>> currTable, double probability) {
+        double randHit = this.rand.genDouble(probability);
         double currVal = 0.0;
 
-        DroppableItem item = null;
+        ItemRecord item = null;
 
-        for (RDSObject<?> rdsObject : table) {
-            currVal += rdsObject.getProbability();
-
+        for (RDSObject<? extends TableEntry> obj : currTable) {
+            currVal += obj.getProbability();
             if (currVal > randHit) {
-                if (rdsObject.getAssociatedObject() instanceof DroppableItem) {
-                    item = (DroppableItem) rdsObject.getAssociatedObject();
-                    if(rdsObject.isUnique()){
-                        table.remove(rdsObject);
-                    }
+                if(obj.isUnique()){
+                    currTable.remove(obj);
+                    probability -= obj.getProbability();
+                }
+                if (obj.isItemDrop() && obj instanceof RDSItemDrop drop) {
+                    item = drop.generateItemRecord(this.rand);
                     break;
-                }else if(rdsObject.getAssociatedObject() instanceof RDSTable){
-                    item = ((RDSTable) rdsObject.getAssociatedObject()).runTable()[0];
+                }else if(obj.isTable() && obj.getAssociatedObject() instanceof RDSTable drop){
+                    //TODO: Make this support sub-tables returning more than 1 item.
+                    item = drop.runTable()[0];
                     break;
-                }else if(rdsObject.getAssociatedObject() == null){
+                }else if(obj.isNull()){
                     System.out.println("Dropping nothing!");
                     break;
                 }
@@ -112,16 +133,22 @@ public class RDSTable {
         return item;
     }
 
-    private ArrayList<RDSObject<?>> filterOutAlwaysAndDisabled(){
-        ArrayList<RDSObject<?>> notMarkedAlwaysAndEnabled = new ArrayList<>();
+    private ArrayList<RDSObject<? extends TableEntry>> filterOutAlwaysAndDisabled(){
+        ArrayList<RDSObject<? extends TableEntry>> notMarkedAlwaysAndEnabled = new ArrayList<>();
 
-        for (RDSObject<?> obj : table) {
-            if(!obj.dropsAlways() || obj.isEnabled()){
+        for (RDSObject<? extends TableEntry> obj : table) {
+            if(!obj.dropsAlways() && obj.isEnabled()){
                 notMarkedAlwaysAndEnabled.add(obj);
             }
         }
 
         return notMarkedAlwaysAndEnabled;
+    }
+
+    public void removeFromTable(int index){
+        RDSObject<? extends TableEntry> obj = table.get(index);
+        this.table.remove(index);
+        this.totalProbability -= obj.getProbability();
     }
 
     public double getTotalProbability() {

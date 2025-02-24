@@ -1,22 +1,20 @@
 package rds.tables;
 
-import items.DroppableItem;
 import items.ores.*;
-import rds.RDSObject;
-import rds.RDSTable;
+import rds.*;
 
 public class OreTable extends RDSTable {
 
     public OreTable() {
         super(2);
-        RDSObject<DroppableItem> copperOre = new RDSObject<>(new Ore_Copper(), 4.0);
-        RDSObject<DroppableItem> ironOre = new RDSObject<>(new Ore_Iron(), 2.5);
-        RDSObject<DroppableItem> silverOre = new RDSObject<>(new Ore_Silver(), 2.0);
-        RDSObject<DroppableItem> coalOre = new RDSObject<>(new Ore_Coal(), 1.5);
-        RDSObject<DroppableItem> goldOre = new RDSObject<>(new Ore_Gold(), 0.5);
-        RDSObject<DroppableItem> nullDrop = new RDSObject<>(null, 1.5);
+        RDSObject<ItemTableEntry> copperOre = new RDSItemDrop(new Ore_Copper(), 4.0, 1 ,4);
+        RDSObject<ItemTableEntry> ironOre = new RDSItemDrop(new Ore_Iron(), 2.5, 1, 4);
+        RDSObject<ItemTableEntry> silverOre = new RDSItemDrop(new Ore_Silver(), 2.0);
+        RDSObject<ItemTableEntry> coalOre = new RDSItemDrop(new Ore_Coal(), 1.5);
+        RDSObject<ItemTableEntry> goldOre = new RDSItemDrop(new Ore_Gold(), 0.5);
+        RDSObject<ItemTableEntry> nullDrop = new RDSObject<>(null, 1.5);
 
-        RDSObject<RDSTable> goldSubTable = new RDSObject<>(new GoldSubTable(), 0.5);
+        RDSObject<SubTableTableEntry> goldSubTable = new RDSObject<>(new GoldSubTable(), 0.25, false, true, true);
 
         this.add(copperOre);
         this.add(ironOre);

@@ -1,9 +1,9 @@
 package items.logs;
 
-import items.DroppableItem;
 import items.Item;
+import rds.ItemTableEntry;
 
-public class Logs extends Item implements DroppableItem {
+public class Logs extends Item implements ItemTableEntry {
     public Logs() {
         super("Logs", true);
     }

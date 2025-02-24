@@ -10,7 +10,7 @@ public class ItemRecord {
         this.item = item;
 
         if(this.item != null && amount <= 0){
-            throw new IllegalArgumentException("ItemRecord amount must be greater than 0");
+            throw new IllegalArgumentException("Item amount must be greater than 0");
         }
 
         this.amount = amount;

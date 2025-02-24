@@ -1,9 +1,9 @@
 package items.ores;
 
-import items.DroppableItem;
 import items.Item;
+import rds.ItemTableEntry;
 
-public class Ore_Coal extends Item implements DroppableItem {
+public class Ore_Coal extends Item implements ItemTableEntry {
 
     public Ore_Coal() {
         super("Coal Ore", true);

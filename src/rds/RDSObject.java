@@ -1,6 +1,16 @@
 package rds;
 
-public class RDSObject<T> implements IRDSObject{
+import items.Item;
+
+/**
+ * Random Distribution System Object
+ * An RDSObject is a datatype used to add a drop entry to an RDSTable. An RDSObject can support items, null values, other RDSTables,
+ * and anything else that can be represented as an entry to a drop table.
+ * @param <T> Must be an Object that implements TableEntry or its inheritors.
+ * @see RDSTable
+ */
+
+public class RDSObject<T extends TableEntry> implements IRDSObject{
 
     private double probability;
     private boolean dropsAlways;
@@ -9,6 +19,11 @@ public class RDSObject<T> implements IRDSObject{
 
     private T associatedObject;
 
+    /**
+     *
+     * @param associatedObject The object that can be chosen from a drop table. For example, an Item or an RDSTable.
+     * @param probability The probability, in double form, of this object being chosen by a table.
+     */
     public RDSObject(T associatedObject, double probability){
         this.probability = probability;
         this.dropsAlways = false;
@@ -18,28 +33,20 @@ public class RDSObject<T> implements IRDSObject{
         this.associatedObject = associatedObject;
     }
 
+    /**
+     *
+     * @param associatedObject The object that can be chosen from a drop table. For example, an Item or an RDSTable.
+     * @param probability The probability, in double form, of this object being chosen by a table.
+     * @param dropsAlways A boolean representing if the item should always drop.
+     * @param isUnique A boolean representing if the item can only drop once per table roll.
+     * @param isEnabled A boolean representing if the item can be chosen by a table roll.
+     */
     public RDSObject(T associatedObject, double probability, boolean dropsAlways, boolean isUnique, boolean isEnabled) {
         this.probability = probability;
         this.dropsAlways = dropsAlways;
         this.isUnique = isUnique;
         this.isEnabled = isEnabled;
         this.associatedObject = associatedObject;
-    }
-
-    public RDSObject(T associatedObject, double probability, int min, int max){
-        this.associatedObject = associatedObject;
-        this.probability = probability;
-        this.dropsAlways = false;
-        this.isUnique = false;
-        this.isEnabled = true;
-    }
-
-    public RDSObject(T associatedObject, double probability, int min, int max, boolean dropsAlways, boolean isUnique, boolean isEnabled){
-        this.associatedObject = associatedObject;
-        this.probability = probability;
-        this.dropsAlways = dropsAlways;
-        this.isUnique = isUnique;
-        this.isEnabled = isEnabled;
     }
 
     //Getters/Setters
@@ -84,10 +91,42 @@ public class RDSObject<T> implements IRDSObject{
         this.dropsAlways = dropsAlways;
     }
 
-    public T getAssociatedObject() {
+    public TableEntry getAssociatedObject() {
         return associatedObject;
     }
     public void setAssociatedObject(T associatedObject) {
         this.associatedObject = associatedObject;
+    }
+
+    /**
+     *
+     * @return A boolean representing if the associatedObject is of type Item.
+     */
+    public boolean isItem(){
+        return this.associatedObject instanceof Item;
+    }
+
+    /**
+     *
+     * @return A boolean representing if the associatedObject is of type RDSTable.
+     */
+    public boolean isTable(){
+        return this.associatedObject instanceof RDSTable;
+    }
+
+    /**
+     *
+     * @return A boolean representing if the associatedObject is null. Used in RDSTables to drop nothing.
+     */
+    public boolean isNull(){
+        return this.associatedObject == null;
+    }
+
+    /**
+     *
+     * @return A boolean representing if the associatedObject is of type RDSItemDrop.
+     */
+    public boolean isItemDrop(){
+        return this.associatedObject instanceof RDSItemDrop;
     }
 }
