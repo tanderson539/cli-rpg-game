@@ -54,11 +54,11 @@ public class RDSTable implements SubTableTableEntry {
         double totalProb = this.totalProbability;
 
         for (RDSObject<? extends TableEntry> currItem : itemsMarkedAlways) {
-            if (currItem.isItemDrop() && currItem instanceof RDSItemDrop drop) {
+            if (currItem instanceof RDSItemDrop drop) {
                 dropArr[dropArrIdx] = drop.generateItemRecord(this.rand);
                 dropArrIdx++;
 
-            } else if (currItem.isTable() && currItem.getAssociatedObject() instanceof RDSTable drop) {
+            } else if (currItem.getAssociatedObject() instanceof RDSTable drop) {
                 dropArr[dropArrIdx] = drop.runTable()[0];
                 dropArrIdx++;
             }
@@ -116,14 +116,14 @@ public class RDSTable implements SubTableTableEntry {
                     currTable.remove(obj);
                     probability -= obj.getProbability();
                 }
-                if (obj.isItemDrop() && obj instanceof RDSItemDrop drop) {
+                if (obj instanceof RDSItemDrop drop) {
                     item = drop.generateItemRecord(this.rand);
                     break;
-                }else if(obj.isTable() && obj.getAssociatedObject() instanceof RDSTable drop){
+                } else if (obj.getAssociatedObject() instanceof RDSTable drop) {
                     //TODO: Make this support sub-tables returning more than 1 item.
                     item = drop.runTable()[0];
                     break;
-                }else if(obj.isNull()){
+                } else if (obj.isNull()) {
                     System.out.println("Dropping nothing!");
                     break;
                 }

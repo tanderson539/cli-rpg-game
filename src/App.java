@@ -1,3 +1,5 @@
+import items.ores.Ore_Coal;
+import items.ores.Ore_Copper;
 import player.Player;
 
 import java.util.Scanner;

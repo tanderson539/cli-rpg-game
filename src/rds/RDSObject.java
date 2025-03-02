@@ -108,25 +108,9 @@ public class RDSObject<T extends TableEntry> implements IRDSObject{
 
     /**
      *
-     * @return A boolean representing if the associatedObject is of type RDSTable.
-     */
-    public boolean isTable(){
-        return this.associatedObject instanceof RDSTable;
-    }
-
-    /**
-     *
      * @return A boolean representing if the associatedObject is null. Used in RDSTables to drop nothing.
      */
     public boolean isNull(){
         return this.associatedObject == null;
-    }
-
-    /**
-     *
-     * @return A boolean representing if the associatedObject is of type RDSItemDrop.
-     */
-    public boolean isItemDrop(){
-        return this.associatedObject instanceof RDSItemDrop;
     }
 }

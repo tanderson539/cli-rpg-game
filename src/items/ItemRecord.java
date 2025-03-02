@@ -42,6 +42,10 @@ public class ItemRecord {
         }
     }
 
+    public boolean isItemNull(){
+        return this.item == null;
+
+    }
     public void setItem(Item item) {
         this.item = item;
     }

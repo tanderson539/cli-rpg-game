@@ -6,13 +6,13 @@ import rds.*;
 public class OreTable extends RDSTable {
 
     public OreTable() {
-        super(2);
+        super(1);
         RDSObject<ItemTableEntry> copperOre = new RDSItemDrop(new Ore_Copper(), 4.0, 1 ,4);
         RDSObject<ItemTableEntry> ironOre = new RDSItemDrop(new Ore_Iron(), 2.5, 1, 4);
         RDSObject<ItemTableEntry> silverOre = new RDSItemDrop(new Ore_Silver(), 2.0);
         RDSObject<ItemTableEntry> coalOre = new RDSItemDrop(new Ore_Coal(), 1.5);
         RDSObject<ItemTableEntry> goldOre = new RDSItemDrop(new Ore_Gold(), 0.5);
-        RDSObject<ItemTableEntry> nullDrop = new RDSObject<>(null, 1.5);
+        RDSObject<ItemTableEntry> nullDrop = new RDSObject<>(null, 1.0);
 
         RDSObject<SubTableTableEntry> goldSubTable = new RDSObject<>(new GoldSubTable(), 0.25, false, true, true);
 
@@ -22,6 +22,6 @@ public class OreTable extends RDSTable {
         this.add(coalOre);
         this.add(goldOre);
         this.add(goldSubTable);
-        this.add(nullDrop);
+        //this.add(nullDrop);
     }
 }

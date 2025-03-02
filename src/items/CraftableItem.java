@@ -1,9 +1,23 @@
 package items;
 
-public interface CraftableItem {
-    //implicit attribute requirements:
-    //CraftingRecipe recipe;
-    //boolean isUnlocked;
-    CraftingRecipe getCraftingRecipe();
-    boolean isUnlocked();
+import craftingSystem.CraftingRecipe;
+
+public class CraftableItem extends Item{
+
+    private CraftingRecipe recipe;
+
+    public CraftableItem(String name, boolean isStackable, CraftingRecipe recipe){
+        super(name, isStackable);
+        this.recipe = recipe;
+    }
+
+
+    public CraftingRecipe getCraftingRecipe() {
+        return recipe;
+    }
+
+    public void setCraftingRecipe(CraftingRecipe recipe) {
+        this.recipe = recipe;
+    }
+
 }

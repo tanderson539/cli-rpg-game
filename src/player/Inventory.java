@@ -10,8 +10,8 @@ import java.util.ArrayList;
  * Manages a Player's inventory by offering methods with which to modify that inventory, its slots, and its items.
  */
 public class Inventory {
-    private final int maxSlots;
-    private ArrayList<InventorySlot> items;
+    private int maxSlots;
+    private final ArrayList<InventorySlot> items;
 
     public Inventory(int maxSlots) {
         this.maxSlots = maxSlots;
@@ -107,6 +107,8 @@ public class Inventory {
                     System.out.println("it says it succeeded.");
                 }
             }
+        }else{
+            throw new IndexOutOfBoundsException();
         }
     }
 
@@ -137,5 +139,73 @@ public class Inventory {
                 System.out.println(slot);
             }
         }
+    }
+
+    public int getUsedInventorySize(){
+        int out = 0;
+
+        for(int i = 0; i < maxSlots; i++){
+            if(!items.get(i).getItemRecord().isItemNull()){
+                out++;
+            }
+        }
+
+        return out;
+    }
+
+    public void removeItem(Item item, int amount){
+        for (InventorySlot inventorySlot : items) {
+            Item currItem = inventorySlot.getItem();
+            if (inventorySlot.isItemNull()) continue;
+
+            if (currItem.equals(item)) {
+                EnumTypes.ItemRemovalState state = inventorySlot.getItemRecord().removeAmount(amount);
+
+                if (state == EnumTypes.ItemRemovalState.EQUALS_ZERO) {
+                    inventorySlot.setItem(new ItemRecord(null, 0));
+                } else if (state == EnumTypes.ItemRemovalState.FAILURE) {
+                    System.out.println("You do not have enough " + currItem.getName() + " to do this.");
+                }
+            }
+        }
+    }
+
+    public ItemRecord getItemRecord(Item item){
+        for(InventorySlot slot : items){
+            if(slot.isItemNull()) continue;
+            if(slot.getItem().equals(item)){
+                return slot.getItemRecord();
+            }
+        }
+        System.out.println("You do not have any " + item.getName() + ".");
+        return new ItemRecord(null, 0);
+    }
+
+    public int getUnusedInventorySize(){
+        return maxSlots - getUsedInventorySize();
+    }
+
+    public boolean isInventoryFull(){
+        return getUsedInventorySize() == maxSlots;
+    }
+
+    public boolean isInventoryEmpty(){
+        return getUsedInventorySize() == 0;
+    }
+
+    public ArrayList<InventorySlot> getInventory() {
+        return items;
+    }
+
+    public ItemRecord getItem(int idx) {
+        return items.get(idx).getItemRecord();
+    }
+
+    public void setMaxSlots(int maxSlots) {
+        this.maxSlots = maxSlots;
+    }
+
+    public int getMaxSlots(){
+        return maxSlots;
     }
 }

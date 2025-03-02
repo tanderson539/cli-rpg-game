@@ -3,7 +3,7 @@ package rds;
 import java.util.Random;
 
 public class RDSRandom {
-    private Random rand;
+    private final Random rand;
     private int seed;
 
     public RDSRandom() {
