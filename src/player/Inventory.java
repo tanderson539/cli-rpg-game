@@ -11,14 +11,19 @@ import java.util.ArrayList;
  */
 public class Inventory {
     private int maxSlots;
-    private final ArrayList<InventorySlot> items;
+    private final ArrayList<InventorySlot> inventorySlots;
 
+    /**
+     * Instantiates the inventorySlots ArrayList, then fills the ArrayList with InventorySlot objects containing a null
+     * ItemRecord. Essentially, creating an empty inventory to be manipulated.
+     * @param maxSlots The integer to set the maximum player inventory size to.
+     */
     public Inventory(int maxSlots) {
         this.maxSlots = maxSlots;
-        items = new ArrayList<>(maxSlots);
+        inventorySlots = new ArrayList<>(maxSlots);
 
         for(int i = 0; i < maxSlots; i++) {
-            items.add(new InventorySlot(i, null, 0));
+            inventorySlots.add(new InventorySlot(i, null, 0));
         }
     }
 
@@ -30,8 +35,14 @@ public class Inventory {
         this.addItem(item, 1);
     }
 
+    /**
+     * Adds an ItemRecord to a player's inventory directly.
+     * Checks if an item already exists in a player inventory, and if it does, adds to that amount with the amount from the ItemRecord
+     * If the inventory is not full, then adds the item to the next available empty inventory slot.
+     * @param itemRecord The ItemRecord object to add to the player inventory.
+     */
     public void addItem(ItemRecord itemRecord) {
-        for (InventorySlot slot : items) {
+        for (InventorySlot slot : inventorySlots) {
             if (slot.isItemNull()) {
                 continue;
             }else if (slot.getItem().getName().equals(itemRecord.getItem().getName()) && itemRecord.getItem().isStackable()) {
@@ -43,13 +54,19 @@ public class Inventory {
         int idxToAdd = this.getNextIndexWithoutItem();
 
         if(idxToAdd >= 0) {
-            items.get(idxToAdd).setItem(itemRecord);
-            items.get(idxToAdd).setIndex(idxToAdd);
+            inventorySlots.get(idxToAdd).setItemRecord(itemRecord);
+            inventorySlots.get(idxToAdd).setIndex(idxToAdd);
         } else {
             System.out.println("Inventory full!");
         }
     }
 
+    /**
+     *
+     * @param index The Inventory Index to attempt to add the item at.
+     * @param itemRecord The item record to attempt to add to the inventory. Uses the Item object and amount from the record
+     *                   to determine what to add.
+     */
     public void addItem(int index, ItemRecord itemRecord) {
         this.addItem(index, itemRecord.getItem(), itemRecord.getAmount());
     }
@@ -61,6 +78,7 @@ public class Inventory {
      * Prints an error message if the player inventory if full.
      * @param item The Item object to attempt to place at the specified Index
      * @param amount The Integer amount of the item to place at the specified index.
+     * TODO: Make this test if an item is stackable or not
      */
     public void addItem(Item item, int amount) {
         ItemRecord itemRecord = new ItemRecord(item, amount);
@@ -74,12 +92,13 @@ public class Inventory {
      * @param item The Item object to attempt to place at the specified Index
      * @param amount The Integer amount of the item to place at the specified index.
      * @see Item
+     * TODO: Make this test if an item is stackable or not
      */
     public void addItem(int index, Item item, int amount) {
         if((index > 0 && index < maxSlots)) {
-            if(!items.get(index).isItemNull()){
-                items.get(index).setItem(new ItemRecord(item, amount));
-                items.get(index).setIndex(index);
+            if(!inventorySlots.get(index).isItemNull()){
+                inventorySlots.get(index).setItemRecord(new ItemRecord(item, amount));
+                inventorySlots.get(index).setIndex(index);
             } else {
                 System.out.println("Item already present at that index.");
             }
@@ -89,20 +108,20 @@ public class Inventory {
     }
 
     /**
-     *
+     * Removed an item from a player's inventory based on the item index and an amount.
      * @param index Indicates the index of the item ArrayList to remove an amount of Item from.
      * @param amount Indicates the amount of an Item to remove.
      */
     public void removeItem(int index, int amount) {
         if((index >= 0 && index < maxSlots)) {
-            if(items.get(index) == null){
-                throw new IndexOutOfBoundsException();
+            if(inventorySlots.get(index).getItem() == null){
+                System.out.println("No item found at the index!");
             } else {
-                EnumTypes.ItemRemovalState state = items.get(index).getItemRecord().removeAmount(amount);
+                EnumTypes.ItemRemovalState state = inventorySlots.get(index).getItemRecord().removeAmount(amount);
                 if(state == EnumTypes.ItemRemovalState.EQUALS_ZERO) {
-                    items.get(index).setItem(new ItemRecord(null, 0));
+                    inventorySlots.get(index).setItemRecord(new ItemRecord(null, 0));
                 } else if (state == EnumTypes.ItemRemovalState.FAILURE ) {
-                    System.out.println("You do not have enough " + items.get(index).getItem().getName() + " to do this.");
+                    System.out.println("You do not have enough " + inventorySlots.get(index).getItem().getName() + " to do this.");
                 }else {
                     System.out.println("it says it succeeded.");
                 }
@@ -118,7 +137,7 @@ public class Inventory {
      */
     private int getNextIndexWithoutItem(){
         for(int i = 0; i < maxSlots; i++){
-            if(items.get(i).isItemNull()){
+            if(inventorySlots.get(i).isItemNull()){
                 return i;
             }
         }
@@ -131,21 +150,24 @@ public class Inventory {
      * Utilizes the overwritten toString() function of each inventory slot object.
      */
     public void printInventory(){
-        for (InventorySlot slot : items) {
+        for (InventorySlot slot : inventorySlots) {
             String itemString = slot.toString();
-            if (itemString.isEmpty()) {
-                continue;
-            }else{
-                System.out.println(slot);
+            if (!itemString.isEmpty()) {
+                System.out.println(slot);;
             }
         }
     }
 
+    /**
+     * Gets the number of inventory spaces in a player inventory that contains an item. Checks each player inventory slot
+     * and adds 1 to the output variable if the itemRecord in that slot is not null.
+     * @return Integer amount of inventory spaces occupied by an item.
+     */
     public int getUsedInventorySize(){
         int out = 0;
 
         for(int i = 0; i < maxSlots; i++){
-            if(!items.get(i).getItemRecord().isItemNull()){
+            if(!inventorySlots.get(i).getItemRecord().isItemNull()){
                 out++;
             }
         }
@@ -153,8 +175,13 @@ public class Inventory {
         return out;
     }
 
+    /**
+     * A more general removeItem function that, instead of inputting an index and amount, utilizes an Item object to remove.
+     * @param item Specifies which Item type to attempt to remove from the player inventory.
+     * @param amount Specifies the amount of the above Item to attempt to remove from the player inventory.
+     */
     public void removeItem(Item item, int amount){
-        for (InventorySlot inventorySlot : items) {
+        for (InventorySlot inventorySlot : inventorySlots) {
             Item currItem = inventorySlot.getItem();
             if (inventorySlot.isItemNull()) continue;
 
@@ -162,7 +189,7 @@ public class Inventory {
                 EnumTypes.ItemRemovalState state = inventorySlot.getItemRecord().removeAmount(amount);
 
                 if (state == EnumTypes.ItemRemovalState.EQUALS_ZERO) {
-                    inventorySlot.setItem(new ItemRecord(null, 0));
+                    inventorySlot.setItemRecord(new ItemRecord(null, 0));
                 } else if (state == EnumTypes.ItemRemovalState.FAILURE) {
                     System.out.println("You do not have enough " + currItem.getName() + " to do this.");
                 }
@@ -170,8 +197,14 @@ public class Inventory {
         }
     }
 
+    /**
+     * Iterates through the player Inventory and, if the Item parameter exists in the plater inventory,
+     * returns the ItemRecord of that Item.
+     * @param item Specifies an Item type to return the Record for
+     * @return Returns an ItemRecord from
+     */
     public ItemRecord getItemRecord(Item item){
-        for(InventorySlot slot : items){
+        for(InventorySlot slot : inventorySlots){
             if(slot.isItemNull()) continue;
             if(slot.getItem().equals(item)){
                 return slot.getItemRecord();
@@ -181,30 +214,60 @@ public class Inventory {
         return new ItemRecord(null, 0);
     }
 
+    /**
+     * Gets the number of spaces in a player inventory that does not contain an Item. In other words,
+     * returns the amount of InventorySlots in a player inventory who's corresponding Item is null.
+     * @return The number of spaces in a player inventory that does not contain an Item.
+     */
     public int getUnusedInventorySize(){
         return maxSlots - getUsedInventorySize();
     }
 
+    /**
+     * Returns a boolean representing if the player inventory is full or not.
+     * @return A boolean representing if the player inventory is full or not.
+     */
     public boolean isInventoryFull(){
         return getUsedInventorySize() == maxSlots;
     }
 
+    /**
+     * Returns a boolean representing if the player inventory is empty or not.
+     * @return a boolean representing if the player inventory is empty or not.
+     */
     public boolean isInventoryEmpty(){
         return getUsedInventorySize() == 0;
     }
 
+    /**
+     *
+     * @return An ArrayList containing the player inventory.
+     */
     public ArrayList<InventorySlot> getInventory() {
-        return items;
+        return inventorySlots;
     }
 
+    /**
+     * Returns an ItemRecord of whatever is in the player inventory at a specific index (even null).
+     * @param idx Integer index to return the ItemRecord with.
+     * @return An ItemRecord from the player inventory at a specific index.
+     */
     public ItemRecord getItem(int idx) {
-        return items.get(idx).getItemRecord();
+        return inventorySlots.get(idx).getItemRecord();
     }
 
+    /**
+     * Sets the maximum player inventory size.
+     * @param maxSlots The integer to set the maximum player inventory size to.
+     */
     public void setMaxSlots(int maxSlots) {
         this.maxSlots = maxSlots;
     }
 
+    /**
+     * Gets the maximum player inventory size
+     * @return The integer value for the player's maximum inventory size.
+     */
     public int getMaxSlots(){
         return maxSlots;
     }

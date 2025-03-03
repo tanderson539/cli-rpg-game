@@ -6,6 +6,6 @@ import rds.ItemTableEntry;
 public class Ore_Coal extends Item implements ItemTableEntry {
 
     public Ore_Coal() {
-        super("Coal Ore", true);
+        super("Coal Ore", false);
     }
 }

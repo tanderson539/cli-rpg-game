@@ -20,4 +20,13 @@ public class CraftableItem extends Item{
         this.recipe = recipe;
     }
 
+    public String recipeToString(){
+        String out = this.getName() + ": ";
+
+        for(Item item : recipe.getRecipe().keySet()){
+            out += recipe.getRecipe().get(item) + "x " + item.getName() + " ";
+        }
+        return out;
+    }
+
 }

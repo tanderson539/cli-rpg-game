@@ -21,6 +21,7 @@ public class CraftingRepo {
     }
 
     public CraftableItem getCraftableItem(int idx) {
+        if(idx < 0 || idx >= this.craftableItemList.size()) return null;
         return craftableItemList.get(idx);
     }
 
@@ -28,7 +29,7 @@ public class CraftingRepo {
         System.out.println("Craftable Items:");
 
         for (int i = 0; i < craftableItemList.size(); i++) {
-            System.out.println(i + ": " + craftableItemList.get(i).getName());
+            System.out.println(i + ": " + craftableItemList.get(i).recipeToString());
         }
     }
 }
