@@ -6,6 +6,7 @@ com/tanderson/items/ingots/Ingot_Silver.class
 com/tanderson/items/ItemRecord.class
 com/tanderson/craftingSystem/CraftingRepo.class
 com/tanderson/items/ores/Ore_Copper.class
+com/tanderson/craftingSystem/CraftingIngredient.class
 com/tanderson/rds/tables/GoldSubTable.class
 com/tanderson/player/Inventory.class
 com/tanderson/rds/ItemTableEntry.class

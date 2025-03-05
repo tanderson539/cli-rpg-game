@@ -2,36 +2,48 @@ package com.tanderson.craftingSystem;
 
 import com.tanderson.items.Item;
 
-import java.util.HashMap;
+import java.util.ArrayList;
 
 public class CraftingRecipe {
-    private HashMap<Item, Integer> recipe;
+    private ArrayList<CraftingIngredient> ingredients;
     private int amountToCraft;
 
-    public CraftingRecipe(int amountToCraft, HashMap<Item, Integer> recipe) {
-        this.recipe = recipe;
+    public CraftingRecipe(int amountToCraft, ArrayList<CraftingIngredient> ingredients) {
+        this.ingredients = ingredients;
         this.amountToCraft = amountToCraft;
     }
 
     public CraftingRecipe(int amountToCraft){
-        this.recipe = new HashMap<>();
+        this.ingredients = new ArrayList<>();
         this.amountToCraft = amountToCraft;
     }
 
     public void addIngredient(Item item, int amount){
-        this.recipe.put(item, amount);
+        this.ingredients.add(new CraftingIngredient(item, amount, true));
+    }
+
+    public void addIngredient(Item item, int amount, boolean isConsumed){
+        this.ingredients.add(new CraftingIngredient(item, amount, isConsumed));
+    }
+
+    public void addIngredient(CraftingIngredient ingredient){
+        this.ingredients.add(ingredient);
     }
 
     public void removeIngredient(Item item){
-        this.recipe.remove(item);
+        for(int i = 0; i < this.ingredients.size(); i++){
+            if(this.ingredients.get(i).getItem().equals(item)){
+                this.ingredients.remove(i);
+            }
+        }
     }
 
-    public HashMap<Item, Integer> getRecipe() {
-        return recipe;
+    public ArrayList<CraftingIngredient> getRecipe() {
+        return ingredients;
     }
 
-    public void setRecipe(HashMap<Item, Integer> recipe) {
-        this.recipe = recipe;
+    public void setRecipe(ArrayList<CraftingIngredient> ingredients) {
+        this.ingredients = ingredients;
     }
 
     public int getAmountToCraft() {

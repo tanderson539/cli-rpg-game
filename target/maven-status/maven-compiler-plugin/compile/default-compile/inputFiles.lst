@@ -1,5 +1,6 @@
 /Users/tanner/projects/CLI-Game/src/main/java/com/tanderson/App.java
 /Users/tanner/projects/CLI-Game/src/main/java/com/tanderson/CommandListener.java
+/Users/tanner/projects/CLI-Game/src/main/java/com/tanderson/craftingSystem/CraftingIngredient.java
 /Users/tanner/projects/CLI-Game/src/main/java/com/tanderson/craftingSystem/CraftingManager.java
 /Users/tanner/projects/CLI-Game/src/main/java/com/tanderson/craftingSystem/CraftingRecipe.java
 /Users/tanner/projects/CLI-Game/src/main/java/com/tanderson/craftingSystem/CraftingRepo.java

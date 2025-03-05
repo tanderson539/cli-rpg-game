@@ -42,10 +42,9 @@ public class Inventory {
      * @param itemRecord The ItemRecord object to add to the player inventory.
      */
     public void addItem(ItemRecord itemRecord) {
+
         for (InventorySlot slot : inventorySlots) {
-            if (slot.isItemNull()) {
-                continue;
-            }else if (slot.getItem().getName().equals(itemRecord.getItem().getName()) && itemRecord.getItem().isStackable()) {
+            if (!slot.isItemNull() && slot.getItem().getName().equals(itemRecord.getItem().getName()) && itemRecord.getItem().isStackable()) {
                 slot.getItemRecord().addAmount(itemRecord.getAmount());
                 return;
             }
@@ -53,11 +52,16 @@ public class Inventory {
 
         int idxToAdd = this.getNextIndexWithoutItem();
 
-        if(idxToAdd >= 0) {
+        if (idxToAdd == -1){
+            System.out.println("Inventory full!");
+            return;
+        }
+
+        if(itemRecord.getItem().isStackable()) {
             inventorySlots.get(idxToAdd).setItemRecord(itemRecord);
             inventorySlots.get(idxToAdd).setIndex(idxToAdd);
         } else {
-            System.out.println("Inventory full!");
+            this.addNonStackableItem(itemRecord.getItem(), itemRecord.getAmount());
         }
     }
 
@@ -78,7 +82,6 @@ public class Inventory {
      * Prints an error message if the player inventory if full.
      * @param item The Item object to attempt to place at the specified Index
      * @param amount The Integer amount of the item to place at the specified index.
-     * TODO: Make this test if an item is stackable or not
      */
     public void addItem(Item item, int amount) {
         ItemRecord itemRecord = new ItemRecord(item, amount);
@@ -92,18 +95,17 @@ public class Inventory {
      * @param item The Item object to attempt to place at the specified Index
      * @param amount The Integer amount of the item to place at the specified index.
      * @see Item
-     * TODO: Make this test if an item is stackable or not
      */
     public void addItem(int index, Item item, int amount) {
-        if((index > 0 && index < maxSlots)) {
-            if(!inventorySlots.get(index).isItemNull()){
-                inventorySlots.get(index).setItemRecord(new ItemRecord(item, amount));
-                inventorySlots.get(index).setIndex(index);
-            } else {
-                System.out.println("Item already present at that index.");
-            }
-        }else{
-            throw new IndexOutOfBoundsException();
+        if (!item.isStackable() && amount != 1) throw new IllegalArgumentException("Amount must be 1 for non-stackable items");
+
+        if(index < 0 || index > maxSlots) throw new IndexOutOfBoundsException();
+
+        if(!inventorySlots.get(index).isItemNull()){
+            inventorySlots.get(index).setItemRecord(new ItemRecord(item, amount));
+            inventorySlots.get(index).setIndex(index);
+        } else {
+            System.out.println("Item already present at that index.");
         }
     }
 
@@ -146,6 +148,26 @@ public class Inventory {
     }
 
     /**
+     * Adds an integer amount of an unstackable item to the player's inventory.
+     * @param item The item to add to the player's inventory.
+     * @param amount The amount of individual items above to add to the player's inventory.
+     */
+    private void addNonStackableItem(Item item, int amount){
+
+        for (int i = 0; i < amount; i++) {
+            int idxToAdd = this.getNextIndexWithoutItem();
+
+            if (idxToAdd == -1){
+                System.out.println("Inventory full!");
+                break;
+            }
+
+            inventorySlots.get(idxToAdd).setItemRecord(new ItemRecord(item, 1));
+            inventorySlots.get(idxToAdd).setIndex(idxToAdd);
+        }
+    }
+
+    /**
      * Performs a print of every item in a player's inventory that is not null.
      * Utilizes the overwritten toString() function of each inventory slot object.
      */
@@ -153,7 +175,7 @@ public class Inventory {
         for (InventorySlot slot : inventorySlots) {
             String itemString = slot.toString();
             if (!itemString.isEmpty()) {
-                System.out.println(slot);;
+                System.out.println(slot);
             }
         }
     }
@@ -181,6 +203,52 @@ public class Inventory {
      * @param amount Specifies the amount of the above Item to attempt to remove from the player inventory.
      */
     public void removeItem(Item item, int amount){
+
+        if(!item.isStackable() && amount != 1){
+            this.removeUnstackableItemFromInventory(item, amount);
+        } else {
+            this.removeStackableItemFromInventory(item, amount);
+        }
+
+    }
+
+    /**
+     * Attempts to remove an integer amount of an unstackable item from the player's inventory.
+     * @param item The item to attempt to remove.
+     * @param amount The amount of that item to attempt to remove.
+     */
+    private void removeUnstackableItemFromInventory(Item item, int amount){
+        int amtToRemove = amount;
+        if (this.getAmountOfItem(item) < amount) {
+            System.out.println("You do not have enough " + item.getName() + " to do this.");
+            return;
+        }
+
+        for (InventorySlot inventorySlot : inventorySlots) {
+            if(amtToRemove <= 0) break;
+
+            if (inventorySlot.isItemNull()) continue;
+
+            if(inventorySlot.getItem().equals(item)){
+                EnumTypes.ItemRemovalState state = inventorySlot.getItemRecord().removeAmount(1);
+
+                if (state == EnumTypes.ItemRemovalState.EQUALS_ZERO) {
+                    amtToRemove--;
+                } else if (state == EnumTypes.ItemRemovalState.FAILURE) {
+                    System.out.println("You do not have enough " + item.getName() + " to do this.");
+                } else if (state == EnumTypes.ItemRemovalState.SUCCESS) {
+                    System.out.println("something weird happened cause apparently there was more than 1 of this unstackable item?");
+                }
+            }
+        }
+    }
+
+    /**
+     * Attempts to remove an integer amount of a stackable item from the player's inventory.
+     * @param item The item to attempt to remove.
+     * @param amount The amount of that item to attempt to remove.
+     */
+    private void removeStackableItemFromInventory(Item item, int amount){
         for (InventorySlot inventorySlot : inventorySlots) {
             Item currItem = inventorySlot.getItem();
             if (inventorySlot.isItemNull()) continue;
@@ -191,14 +259,15 @@ public class Inventory {
                 if (state == EnumTypes.ItemRemovalState.EQUALS_ZERO) {
                     inventorySlot.setItemRecord(new ItemRecord(null, 0));
                 } else if (state == EnumTypes.ItemRemovalState.FAILURE) {
-                    System.out.println("You do not have enough " + currItem.getName() + " to do this.");
+                    System.out.println("You do not have enough " + item.getName() + " to do this.");
                 }
+                break;
             }
         }
     }
 
     /**
-     * Iterates through the player Inventory and, if the Item parameter exists in the plater inventory,
+     * Iterates through the player Inventory and, if the Item parameter exists in the player inventory,
      * returns the ItemRecord of that Item.
      * @param item Specifies an Item type to return the Record for
      * @return Returns an ItemRecord from
@@ -237,6 +306,37 @@ public class Inventory {
      */
     public boolean isInventoryEmpty(){
         return getUsedInventorySize() == 0;
+    }
+
+    /**
+     * Searches a player's inventory for an item and returns an integer representing the amount of that item.
+     * @param item An Item object to search for
+     * @return An integer representing the amount of that item in the player's inventory.
+     */
+    public int getAmountOfItem(Item item){
+        if(item.isStackable()){
+            return this.getItemRecord(item).getAmount();
+        }else{
+            return this.getAmountOfUnstackableItem(item);
+        }
+    }
+
+    /**
+     * Searches a player's inventory for an item assumed to be unstackable and returns an integer representing the amount of that item.
+     * @param item An Item object to search for
+     * @return An integer representing the amount of that item in the player's inventory.
+     */
+    private int getAmountOfUnstackableItem(Item item){
+        if (item.isStackable()) throw new IllegalArgumentException("Stackable item given to when unstackable item was expected");
+
+        int amount = 0;
+
+        for(InventorySlot slot : inventorySlots){
+            if(slot.isItemNull()) continue;
+
+            if(slot.getItem().equals(item)) amount++;
+        }
+        return amount;
     }
 
     /**

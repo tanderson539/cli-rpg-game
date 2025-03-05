@@ -4,8 +4,26 @@
   <groupId>com.tanderson</groupId>
   <artifactId>CLI-Game</artifactId>
   <packaging>jar</packaging>
+
   <build>
     <plugins>
+
+      <plugin>
+        <!-- Build an executable JAR -->
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+        <version>3.1.0</version>
+        <configuration>
+          <archive>
+            <manifest>
+              <addClasspath>true</addClasspath>
+              <classpathPrefix>lib/</classpathPrefix>
+              <mainClass>com.tanderson.App</mainClass>
+            </manifest>
+          </archive>
+        </configuration>
+      </plugin>
+
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
@@ -14,11 +32,14 @@
           <target>21</target>
         </configuration>
       </plugin>
+
     </plugins>
   </build>
-  <version>0.0.1</version>
+
+  <version>0.0.1-15</version>
   <name>CLI-Game</name>
-  <url>http://maven.apache.org</url>
+  <url>https://tanderson.dev</url>
+
   <dependencies>
     <!-- https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-api -->
     <dependency>
@@ -35,7 +56,6 @@
       <version>5.12.0</version>
       <scope>test</scope>
     </dependency>
-
 
     <!-- https://mvnrepository.com/artifact/org.apache.commons/commons-lang3 -->
     <dependency>

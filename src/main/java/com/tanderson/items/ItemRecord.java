@@ -35,6 +35,7 @@ public class ItemRecord {
             return EnumTypes.ItemRemovalState.SUCCESS;
         }else if (this.amount - amountToRemove == 0){
             this.amount -= amountToRemove;
+            this.item = null;
             return EnumTypes.ItemRemovalState.EQUALS_ZERO;
         } else{
 

@@ -41,7 +41,14 @@ public class InventorySlot {
         if(this.isItemNull()){
             return "";
         }
-        return "[Slot " + (this.index + 1) + "] - " + item.getItem().getName() + " x" + item.getAmount();
+
+        //if it is stackable
+        if(this.item.getItem().isStackable()){
+            return "[Slot " + (this.index + 1) + "] - " + item.getItem().getName() + " x" + item.getAmount();
+        }
+
+        // Unstackable return
+        return "[Slot " + (this.index + 1) + "] - " + item.getItem().getName();
     }
 
     /**

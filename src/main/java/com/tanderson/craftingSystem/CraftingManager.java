@@ -1,11 +1,10 @@
 package com.tanderson.craftingSystem;
 
 import com.tanderson.items.CraftableItem;
-import com.tanderson.items.Item;
 import com.tanderson.items.ItemRecord;
 import com.tanderson.player.Inventory;
 
-import java.util.HashMap;
+import java.util.ArrayList;
 
 public class CraftingManager {
 
@@ -17,6 +16,7 @@ public class CraftingManager {
 
     public boolean craftItem(CraftableItem item){
         if(!this.canCraft(item.getCraftingRecipe())){
+            System.out.println("returning from craftItem because the cancraft method came back false");
             return false;
         }
 
@@ -33,19 +33,20 @@ public class CraftingManager {
     }
 
     public boolean canCraft(CraftingRecipe recipe){
-        for (Item ingredient : recipe.getRecipe().keySet()) {
-            int requiredAmount = recipe.getRecipe().get(ingredient);
-            if (inventory.getItemRecord(ingredient).getAmount() < requiredAmount) {
+        for (CraftingIngredient ingredient : recipe.getRecipe()) {
+            int requiredAmount = ingredient.getAmountRequired();
+            if (inventory.getAmountOfItem(ingredient.getItem()) < requiredAmount) {
                 return false;
             }
         }
         return true;
     }
 
-    private void consumeIngredients(HashMap<Item, Integer> recipe){
-        for (Item item : recipe.keySet()) {
-            int amount = recipe.get(item);
-            inventory.removeItem(item, amount);
+    private void consumeIngredients(ArrayList<CraftingIngredient> recipe){
+        for (CraftingIngredient ingredient : recipe) {
+            if(ingredient.isConsumed()){
+                inventory.removeItem(ingredient.getItem(), ingredient.getAmountRequired());
+            }
         }
     }
 }

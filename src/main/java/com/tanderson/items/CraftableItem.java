@@ -1,5 +1,6 @@
 package com.tanderson.items;
 
+import com.tanderson.craftingSystem.CraftingIngredient;
 import com.tanderson.craftingSystem.CraftingRecipe;
 
 public class CraftableItem extends Item{
@@ -23,8 +24,8 @@ public class CraftableItem extends Item{
     public String recipeToString(){
         String out = this.getName() + ": ";
 
-        for(Item item : recipe.getRecipe().keySet()){
-            out += recipe.getRecipe().get(item) + "x " + item.getName() + " ";
+        for(CraftingIngredient ingredient : recipe.getRecipe()){
+            out += ingredient.getAmountRequired() + "x " + ingredient.getItem().getName() + " ";
         }
         return out;
     }

@@ -55,7 +55,6 @@ public class CommandListener {
     public void update() {
         while (isRunning) {
             System.out.print("> ");
-
             String cmd = scanner.nextLine();
             handleInput(cmd);
         }
@@ -93,6 +92,7 @@ public class CommandListener {
                 break;
             case "inventory":
             case "inv":
+            case "i":
                 player.getInventory().printInventory();
                 break;
             case "drop":
