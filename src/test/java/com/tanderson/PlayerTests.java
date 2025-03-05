@@ -1,6 +1,7 @@
 package com.tanderson;
 
 import com.tanderson.player.Player;
+import com.tanderson.player.PlayerSkills;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -36,5 +37,26 @@ public class PlayerTests {
         this.p.mine();
         assertNotEquals(0, this.p.getInventory().getInventory().size());
         assertTrue(this.p.getPlayerSkills().getMiningSkill().getTotalXp() > 0);
+    }
+
+    @Test
+    @DisplayName("can set totalXp in Mining and determine correct level and xp to next level")
+    void testPlayerMiningNextLevel(){
+        p.getPlayerSkills().getMiningSkill().setTotalXp(90);
+
+        assertEquals(90, p.getPlayerSkills().getMiningSkill().getTotalXp());
+        assertEquals(4, p.getPlayerSkills().getMiningSkill().getCurrentLevel());
+        assertEquals(10, p.getPlayerSkills().getMiningSkill().getXpToNextLevel());
+    }
+
+    @Test
+    @DisplayName("Can create a new player with specific totalXP and it will determine correct level and xp to next level")
+    void testPlayerCreatingNewPlayer(){
+        PlayerSkills skills = new PlayerSkills(90, 0, 0);
+        Player p2 = new Player("New Player", skills);
+
+        assertEquals(90, p2.getPlayerSkills().getMiningSkill().getTotalXp());
+        assertEquals(4, p2.getPlayerSkills().getMiningSkill().getCurrentLevel());
+        assertEquals(10, p2.getPlayerSkills().getMiningSkill().getXpToNextLevel());
     }
 }

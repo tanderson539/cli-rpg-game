@@ -26,6 +26,20 @@ public class Player {
     }
 
     /**
+     * Configures a Player object with a provided name and pre-configured skills.
+     * Defaults to a completely empty inventory.
+     * Configured a MiningManager to handle any mining actions.
+     * @param playerName A string name for the player.
+     * @param playerSkills An object holding pre-configured player Skills. Allows for loading skill for testing or from a save.
+     */
+    public Player(String playerName, PlayerSkills playerSkills){
+        this.playerName = playerName;
+        this.playerSkills = playerSkills;
+        this.inventory = new Inventory(20);
+        this.miningManager = new MiningManager(this.playerSkills.getMiningSkill(), this.inventory);
+    }
+
+    /**
      * Performs a Mining action and grants XP in the mining skill.
      */
     public void mine() {

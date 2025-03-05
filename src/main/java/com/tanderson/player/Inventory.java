@@ -101,7 +101,7 @@ public class Inventory {
 
         if(index < 0 || index > maxSlots) throw new IndexOutOfBoundsException();
 
-        if(!inventorySlots.get(index).isItemNull()){
+        if(inventorySlots.get(index).isItemNull()){
             inventorySlots.get(index).setItemRecord(new ItemRecord(item, amount));
             inventorySlots.get(index).setIndex(index);
         } else {
@@ -110,7 +110,7 @@ public class Inventory {
     }
 
     /**
-     * Removed an item from a player's inventory based on the item index and an amount.
+     * Removes an item from a player's inventory based on the item index and an amount.
      * @param index Indicates the index of the item ArrayList to remove an amount of Item from.
      * @param amount Indicates the amount of an Item to remove.
      */
@@ -124,8 +124,6 @@ public class Inventory {
                     inventorySlots.get(index).setItemRecord(new ItemRecord(null, 0));
                 } else if (state == EnumTypes.ItemRemovalState.FAILURE ) {
                     System.out.println("You do not have enough " + inventorySlots.get(index).getItem().getName() + " to do this.");
-                }else {
-                    System.out.println("it says it succeeded.");
                 }
             }
         }else{
