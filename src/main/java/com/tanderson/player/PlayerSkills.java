@@ -5,9 +5,9 @@ import com.tanderson.skills.MiningSkill;
 import com.tanderson.skills.WoodcuttingSkill;
 
 public class PlayerSkills {
-    MiningSkill miningSkill;
-    WoodcuttingSkill woodcuttingSkill;
-    ForgingSkill forgingSkill;
+    private final MiningSkill miningSkill;
+    private final WoodcuttingSkill woodcuttingSkill;
+    private final ForgingSkill forgingSkill;
 
     public PlayerSkills() {
         this.miningSkill = new MiningSkill();

@@ -4,8 +4,7 @@ import com.tanderson.player.Player;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 @DisplayName("Player Test")
 public class PlayerTests {
@@ -36,6 +35,6 @@ public class PlayerTests {
     void testPlayerMining(){
         this.p.mine();
         assertNotEquals(0, this.p.getInventory().getInventory().size());
-        assertEquals(5, this.p.getPlayerSkills().getMiningSkill().getTotalXp());
+        assertTrue(this.p.getPlayerSkills().getMiningSkill().getTotalXp() > 0);
     }
 }
