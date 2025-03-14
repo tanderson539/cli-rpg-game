@@ -1,4 +1,4 @@
-package com.tanderson.items.logs;
+package com.tanderson.items.wood.logs;
 
 import com.tanderson.items.Item;
 import com.tanderson.rds.ItemTableEntry;

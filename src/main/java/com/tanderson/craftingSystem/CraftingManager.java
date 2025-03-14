@@ -14,25 +14,22 @@ public class CraftingManager {
         this.inventory = inventory;
     }
 
-    public boolean craftItem(CraftableItem item){
+    public String craftItem(CraftableItem item){
         if(!this.canCraft(item.getCraftingRecipe())){
-            System.out.println("returning from craftItem because the cancraft method came back false");
-            return false;
+            return "Can't craft " + item.getName();
         }
 
         if(!inventory.isInventoryFull()){
             this.consumeIngredients(item.getCraftingRecipe().getRecipe());
             int amountToCraft = item.getCraftingRecipe().getAmountToCraft();
             inventory.addItem(new ItemRecord(item, amountToCraft));
+            return "Successfully crafted " + item.getName() + "!";
         }else{
-            System.out.println("Inventory full, cannot craft item.");
-            return false;
+            return "Inventory full, cannot craft item.";
         }
-
-        return true;
     }
 
-    public boolean canCraft(CraftingRecipe recipe){
+    public boolean canCraft(BasicRecipe recipe){
         for (CraftingIngredient ingredient : recipe.getRecipe()) {
             int requiredAmount = ingredient.getAmountRequired();
             if (inventory.getAmountOfItem(ingredient.getItem()) < requiredAmount) {

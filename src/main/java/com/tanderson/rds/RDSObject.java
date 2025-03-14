@@ -6,6 +6,8 @@ import com.tanderson.items.Item;
  * Random Distribution System Object
  * An RDSObject is a datatype used to add a drop entry to an RDSTable. An RDSObject can support items, null values, other RDSTables,
  * and anything else that can be represented as an entry to a drop table.
+ * The probability is cumulative with everything in an RDS table. Meaning, a table with 2 items,
+ * both with a probability of 1, means both items have a 50% chance of being selected.
  * @param <T> Must be an Object that implements TableEntry or its inheritors.
  * @see RDSTable
  */
@@ -48,8 +50,6 @@ public class RDSObject<T extends TableEntry> implements IRDSObject{
         this.isEnabled = isEnabled;
         this.associatedObject = associatedObject;
     }
-
-    //Getters/Setters
 
     @Override
     public boolean isEnabled() {

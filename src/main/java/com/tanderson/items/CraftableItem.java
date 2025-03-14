@@ -1,23 +1,23 @@
 package com.tanderson.items;
 
 import com.tanderson.craftingSystem.CraftingIngredient;
-import com.tanderson.craftingSystem.CraftingRecipe;
+import com.tanderson.craftingSystem.BasicRecipe;
 
-public class CraftableItem extends Item{
+public class CraftableItem extends Item implements Craftable{
 
-    private CraftingRecipe recipe;
+    private BasicRecipe recipe;
 
-    public CraftableItem(String name, boolean isStackable, CraftingRecipe recipe){
+    public CraftableItem(String name, boolean isStackable, BasicRecipe recipe){
         super(name, isStackable);
         this.recipe = recipe;
     }
 
 
-    public CraftingRecipe getCraftingRecipe() {
+    public BasicRecipe getCraftingRecipe() {
         return recipe;
     }
 
-    public void setCraftingRecipe(CraftingRecipe recipe) {
+    public void setCraftingRecipe(BasicRecipe recipe) {
         this.recipe = recipe;
     }
 

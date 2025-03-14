@@ -1,8 +1,9 @@
 package com.tanderson.skills;
 
+import com.tanderson.display.TextAreaAppender;
+
 /**
  * Base class to build any and all skills the game will use.
- * TODO: Make the maxLevel matter somehow?
  */
 public class Skill {
     private int maxLevel;
@@ -10,7 +11,7 @@ public class Skill {
     private int xpToNextLevel;
     private int totalXp;
 
-    private final int BASE_LEVEL_XP = 10;
+    private final int BASE_LEVEL_XP = 25;
 
     private String skillName;
 
@@ -21,7 +22,7 @@ public class Skill {
      */
     public Skill(String skillName ) {
         this.skillName = skillName;
-        this.maxLevel = 99;
+        this.maxLevel = 100;
         this.totalXp = 0;
         this.currentLevel = 1;
         this.xpToNextLevel = BASE_LEVEL_XP;
@@ -77,10 +78,15 @@ public class Skill {
     public void levelUp(){
         while(totalXp >= this.getXpToAnyLevel(this.currentLevel + 1)){
             this.currentLevel++;
-            this.xpToNextLevel = (this.BASE_LEVEL_XP * this.currentLevel) - (this.totalXp - this.getXpToCurrentLevel());
+
+            if(this.currentLevel < this.maxLevel){
+                this.xpToNextLevel = (this.BASE_LEVEL_XP * this.currentLevel) - (this.totalXp - this.getXpToCurrentLevel());
+            } else {
+                this.xpToNextLevel = Integer.MAX_VALUE;
+            }
         }
 
-        System.out.println("You've leveled up " + this.skillName + ". You are now level " + this.currentLevel);
+        TextAreaAppender.appendln("You've leveled up " + this.skillName + ". You are now level " + this.currentLevel);
     }
 
     /**
@@ -129,13 +135,16 @@ public class Skill {
      * Prints info about this specific skill to the console.
      * Checks if the currentLevel is below the max level, and if it is, also prints xp to next level.
      */
-    public void printSkillInfo(){
-        System.out.println(this.skillName + " Level: " + this.getCurrentLevel());
-        System.out.println("Total XP: " + this.getTotalXp());
+    public String printSkillInfo(){
+        String out = "";
+        out += this.skillName + " Level: " + this.getCurrentLevel() + "\n";
+        out += "Total XP: " + this.getTotalXp() + "\n";
 
         if(this.getCurrentLevel() < this.getMaxLevel()){
-            System.out.println("XP to next level: " + this.getXpToNextLevel());
+            out += "XP to next level: " + this.getXpToNextLevel();
         }
+
+        return out;
     }
 
     /**
@@ -188,7 +197,6 @@ public class Skill {
      * Sets the Integer total amount of xp for this specific skill.
      * @param totalXp The Integer total amount of xp for this specific skill.
      */
-    //TODO: ensure setTotalXP also sets the currentLevel and xpToNextLevel
     public void setTotalXp(int totalXp) {
         this.totalXp = totalXp;
         this.setCurrentLevel();

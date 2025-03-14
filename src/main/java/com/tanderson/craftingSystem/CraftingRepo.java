@@ -25,11 +25,13 @@ public class CraftingRepo {
         return craftableItemList.get(idx);
     }
 
-    public void printCraftableItemList() {
-        System.out.println("Craftable Items:");
+    public String printCraftableItemList() {
+        StringBuilder out = new StringBuilder("Craftable Items:\n");
 
         for (int i = 0; i < craftableItemList.size(); i++) {
-            System.out.println(i + ": " + craftableItemList.get(i).recipeToString());
+            out.append(i).append(": ").append(craftableItemList.get(i).recipeToString()).append("\n");
         }
+
+        return out.toString();
     }
 }

@@ -9,15 +9,14 @@ import com.tanderson.rds.RDSRandom;
 import com.tanderson.rds.tables.OreTable;
 import org.apache.commons.lang3.StringUtils;
 
-import java.util.Scanner;
-
 /**
  * Object used to handle the main game logic by interpreting input commands from the console.
  */
 public class CommandListener {
 
     private final Player player;
-    private final Scanner scanner;
+
+    private CraftingManager craftingManager;
 
     private boolean isRunning;
 
@@ -27,44 +26,31 @@ public class CommandListener {
      * Main Constructor for the CommandListener class. Sets isRunning to true, allowing for clear control
      * of the main game loop
      * @param player The Player object that all commands will interact with
-     * @param scanner The Scanner object to be used to provide game input
      */
-    public CommandListener(Player player, Scanner scanner) {
+    public CommandListener(Player player) {
         this.player = player;
-        this.scanner = scanner;
         this.isRunning = true;
         this.rand = new RDSRandom();
+        this.craftingManager = new CraftingManager(this.player.getInventory());
     }
 
     /**
      * This constructor should only really be used for testing purposes, due to the requirement to add an RNG seed.
      * @param player The Player object that all commands will interact with
-     * @param scanner The Scanner object to be used to provide game input
      * @param randSeed An integer seed that can be used to produce the same RNG roles for testing purposes
      */
-    public CommandListener(Player player, Scanner scanner, int randSeed) {
+    public CommandListener(Player player, int randSeed) {
         this.player = player;
-        this.scanner = scanner;
         this.isRunning = true;
         this.rand = new RDSRandom(randSeed);
     }
 
-    /**
-     * Handles the main game loop
-     */
-    public void update() {
-        while (isRunning) {
-            System.out.print("> ");
-            String cmd = scanner.nextLine();
-            handleInput(cmd);
-        }
-    }
 
     /**
-     * Handles the input from the Scanner object and utilizes a switch statement to perform game actions.
+     * Handles the input and utilizes a switch statement to perform game actions.
      * @param input A string of the input captured from the Scanner object.
      */
-    private void handleInput(String input) {
+    public void handleInput(String input) {
         String[] words = input.split(" ");
 
         switch (words[0]) {
@@ -75,7 +61,6 @@ public class CommandListener {
             case "quit":
             case "x":
                 isRunning = false;
-                scanner.close();
                 System.exit(0);
                 break;
             case "help":
@@ -143,21 +128,20 @@ public class CommandListener {
         if(words.length == 1 || words.length == 2){
             System.out.println("too few arguments, please type an inventory index and an amount");
         }else {
-            if(StringUtils.isNumeric(words[1]) && StringUtils.isNumeric(words[2])){
+            try{
                 int idx = Integer.parseInt(words[1]) - 1;
                 int amount = Integer.parseInt(words[2]);
-
                 System.out.println("attempting to remove actual index" + idx + " and " + amount);
 
                 player.getInventory().removeItem(idx, amount);
-            }else{
-                System.out.println("Command format: drop <index> <amount>");
+            } catch (NumberFormatException e) {
+                System.out.println("Input must Integers.");
             }
         }
     }
 
     /**
-     *
+     * Runs the Ore drop table and returns what is dropped from it for testing & debugging purposes.
      */
     private void handleLootCommand(){
         OreTable table = new OreTable();
@@ -174,7 +158,7 @@ public class CommandListener {
     }
 
     /**
-     *
+     * Generates a random double from 0.0 to a random given maximum, or if none is given, uses a max of 20.0
      * @param words The input text string split into an array to allow for manipulation of individual words.
      */
     private void handleRand(String[] words){
@@ -193,7 +177,6 @@ public class CommandListener {
      * @param words The input text string split into an array to allow for manipulation of individual words.
      */
     private void handleCraft(String[] words){
-        CraftingManager manager = new CraftingManager(this.player.getInventory());
         CraftingRepo repo = new CraftingRepo();
 
         CraftableItem itemToCraft = repo.getCraftableItem(Integer.parseInt(words[1]));
@@ -203,12 +186,6 @@ public class CommandListener {
             return;
         }
 
-        boolean didCraft = manager.craftItem(itemToCraft);
-
-        if(didCraft){
-            System.out.println("Successfully crafted!");
-        }else{
-            System.out.println("Failed to craft item!");
-        }
+        this.craftingManager.craftItem(itemToCraft);
     }
 }

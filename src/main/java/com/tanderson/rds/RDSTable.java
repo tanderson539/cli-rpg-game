@@ -1,5 +1,6 @@
 package com.tanderson.rds;
 
+import com.tanderson.display.TextAreaAppender;
 import com.tanderson.items.ItemRecord;
 
 import java.util.ArrayList;
@@ -12,10 +13,24 @@ import java.util.ArrayList;
 public class RDSTable implements SubTableTableEntry {
 
     private final ArrayList<RDSObject<? extends TableEntry>> table;
+
+    /**
+     * Standard practice is for a table to attempt to have a total probability of 100.
+     * This way, it is fairly easy to determine and calculate how likely any given entry
+     * in the table is to be selected.
+     * For example, an RDSObject with 1 probability would be chosen 1/100 rolls. 0.5, 1/200, and so on.
+     */
     private double totalProbability;
+
     private final int totalDrops;
     private final RDSRandom rand;
 
+    /**
+     * Creates an RDSTable Object with an empty ArrayList and a chosen amount of different objects to drop.
+     * I.E. totalDrops of 2 mean that 2 entries from the table will be selected. This could be the same entry,
+     * assuming the object chosen has isUnique set to false.
+     * @param totalDrops An Integer amount of individual drops to be chosen from the given table.
+     */
     public RDSTable(int totalDrops) {
         this.totalDrops = totalDrops;
         table = new ArrayList<>();
@@ -23,6 +38,13 @@ public class RDSTable implements SubTableTableEntry {
         this.rand = new RDSRandom();
     }
 
+    /**
+     * Creates an RDSTable Object with a given ArrayList of drops and a chosen amount of different objects to drop.
+     * I.E. totalDrops of 2 mean that 2 entries from the table will be selected. This could be the same entry,
+     * assuming the object chosen has isUnique set to false.
+     * @param table An ArrayList of RDSObjects with associatedObjects of parent type TableEntry
+     * @param totalDrops An Integer amount of individual drops to be chosen from the given table.
+     */
     public RDSTable(ArrayList<RDSObject<? extends TableEntry>> table, int totalDrops) {
         this.table = table;
         this.totalDrops = totalDrops;
@@ -33,11 +55,23 @@ public class RDSTable implements SubTableTableEntry {
         }
     }
 
+    /**
+     * Adds an RDSObject to the table ArrayList and returns a boolean stating if it was successful or not.
+     * @param object An RDSObject with an associatedObject that extends or implements type TableEntry.
+     * @return A boolean stating if the add operation was successful.
+     */
     public boolean add(RDSObject<? extends TableEntry> object) {
         this.totalProbability += object.getProbability();
         return table.add(object);
     }
 
+    /**
+     * Uses table the ArrayList and attributes of its related RDSObjects to choose *totalDrops* amount of
+     * RDSObjects and returns an ItemRecord array of the results.
+     * @return an ItemRecord array of the results of size *totalDrops*.
+     * TODO: Rewrite to have this return RDSObjects. Leave implementation of what associatedObject the table should return up to individual drop managers.
+     * TODO: Write individual drop managers for items, enemies, or whatever else.
+     */
     public ItemRecord[] runTable(){
         if (table.isEmpty()) {
             return null;
@@ -81,16 +115,20 @@ public class RDSTable implements SubTableTableEntry {
             }
         }
 
-        System.out.println("Dropped Items:");
+        TextAreaAppender.appendln("Dropped Items:");
         for (ItemRecord item : dropArr) {
             if(item != null){
-                System.out.println(item.getAmount() + "x " + item.getItem().getName());
+                TextAreaAppender.appendln(item.getAmount() + "x " + item.getItem().getName());
             }
         }
 
         return dropArr;
     }
 
+    /**
+     *
+     * @return
+     */
     private ArrayList<RDSObject<? extends TableEntry>> getObjectsMarkedAlways() {
         ArrayList<RDSObject<? extends TableEntry>> markedAlways = new ArrayList<>();
 
@@ -124,7 +162,7 @@ public class RDSTable implements SubTableTableEntry {
                     item = drop.runTable()[0];
                     break;
                 } else if (obj.isNull()) {
-                    System.out.println("Dropping nothing!");
+                    TextAreaAppender.appendln("Dropping nothing!");
                     break;
                 }
             }

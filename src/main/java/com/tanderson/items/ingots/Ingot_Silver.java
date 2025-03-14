@@ -1,6 +1,6 @@
 package com.tanderson.items.ingots;
 
-import com.tanderson.craftingSystem.CraftingRecipe;
+import com.tanderson.craftingSystem.BasicRecipe;
 import com.tanderson.items.CraftableItem;
 import com.tanderson.items.ores.Ore_Coal;
 import com.tanderson.items.ores.Ore_Silver;
@@ -11,8 +11,8 @@ public class Ingot_Silver extends CraftableItem {
         super("Silver Ingot", true, createRecipe());
     }
 
-    private static CraftingRecipe createRecipe() {
-        CraftingRecipe recipe = new CraftingRecipe(2);
+    private static BasicRecipe createRecipe() {
+        BasicRecipe recipe = new BasicRecipe(2);
         recipe.addIngredient(new Ore_Silver(), 2);
         recipe.addIngredient(new Ore_Coal(), 1);
 

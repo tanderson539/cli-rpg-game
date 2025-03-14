@@ -1,5 +1,6 @@
 package com.tanderson.player;
 
+import com.tanderson.display.TextAreaAppender;
 import com.tanderson.items.Item;
 import com.tanderson.items.ItemRecord;
 import com.tanderson.util.EnumTypes;
@@ -53,7 +54,7 @@ public class Inventory {
         int idxToAdd = this.getNextIndexWithoutItem();
 
         if (idxToAdd == -1){
-            System.out.println("Inventory full!");
+            TextAreaAppender.appendln("Inventory full!");
             return;
         }
 
@@ -105,7 +106,7 @@ public class Inventory {
             inventorySlots.get(index).setItemRecord(new ItemRecord(item, amount));
             inventorySlots.get(index).setIndex(index);
         } else {
-            System.out.println("Item already present at that index.");
+            TextAreaAppender.appendln("Item already present at that index.");
         }
     }
 
@@ -117,13 +118,13 @@ public class Inventory {
     public void removeItem(int index, int amount) {
         if((index >= 0 && index < maxSlots)) {
             if(inventorySlots.get(index).getItem() == null){
-                System.out.println("No item found at the index!");
+                TextAreaAppender.appendln("No item found at the index!");
             } else {
                 EnumTypes.ItemRemovalState state = inventorySlots.get(index).getItemRecord().removeAmount(amount);
                 if(state == EnumTypes.ItemRemovalState.EQUALS_ZERO) {
                     inventorySlots.get(index).setItemRecord(new ItemRecord(null, 0));
                 } else if (state == EnumTypes.ItemRemovalState.FAILURE ) {
-                    System.out.println("You do not have enough " + inventorySlots.get(index).getItem().getName() + " to do this.");
+                    TextAreaAppender.appendln("You do not have enough " + inventorySlots.get(index).getItem().getName() + " to do this.");
                 }
             }
         }else{
@@ -156,7 +157,7 @@ public class Inventory {
             int idxToAdd = this.getNextIndexWithoutItem();
 
             if (idxToAdd == -1){
-                System.out.println("Inventory full!");
+                TextAreaAppender.appendln("Inventory full!");
                 break;
             }
 
@@ -169,13 +170,16 @@ public class Inventory {
      * Performs a print of every item in a player's inventory that is not null.
      * Utilizes the overwritten toString() function of each inventory slot object.
      */
-    public void printInventory(){
+    public String printInventory(){
+        StringBuilder sb = new StringBuilder();
         for (InventorySlot slot : inventorySlots) {
             String itemString = slot.toString();
             if (!itemString.isEmpty()) {
-                System.out.println(slot);
+                sb.append(itemString).append("\n");
             }
         }
+
+        return sb.toString();
     }
 
     /**
@@ -218,7 +222,7 @@ public class Inventory {
     private void removeUnstackableItemFromInventory(Item item, int amount){
         int amtToRemove = amount;
         if (this.getAmountOfItem(item) < amount) {
-            System.out.println("You do not have enough " + item.getName() + " to do this.");
+            TextAreaAppender.appendln("You do not have enough " + item.getName() + " to do this.");
             return;
         }
 
@@ -233,9 +237,9 @@ public class Inventory {
                 if (state == EnumTypes.ItemRemovalState.EQUALS_ZERO) {
                     amtToRemove--;
                 } else if (state == EnumTypes.ItemRemovalState.FAILURE) {
-                    System.out.println("You do not have enough " + item.getName() + " to do this.");
+                    TextAreaAppender.appendln("You do not have enough " + item.getName() + " to do this.");
                 } else if (state == EnumTypes.ItemRemovalState.SUCCESS) {
-                    System.out.println("something weird happened cause apparently there was more than 1 of this unstackable item?");
+                    TextAreaAppender.appendln("something weird happened cause apparently there was more than 1 of this unstackable item?");
                 }
             }
         }
@@ -257,7 +261,7 @@ public class Inventory {
                 if (state == EnumTypes.ItemRemovalState.EQUALS_ZERO) {
                     inventorySlot.setItemRecord(new ItemRecord(null, 0));
                 } else if (state == EnumTypes.ItemRemovalState.FAILURE) {
-                    System.out.println("You do not have enough " + item.getName() + " to do this.");
+                    TextAreaAppender.appendln("You do not have enough " + item.getName() + " to do this.");
                 }
                 break;
             }
@@ -277,7 +281,7 @@ public class Inventory {
                 return slot.getItemRecord();
             }
         }
-        System.out.println("You do not have any " + item.getName() + ".");
+        TextAreaAppender.appendln("You do not have any " + item.getName() + ".");
         return new ItemRecord(null, 0);
     }
 
@@ -338,7 +342,7 @@ public class Inventory {
     }
 
     /**
-     *
+     * Returns an ArrayList containing the player inventory.
      * @return An ArrayList containing the player inventory.
      */
     public ArrayList<InventorySlot> getInventory() {
@@ -363,7 +367,7 @@ public class Inventory {
     }
 
     /**
-     * Gets the maximum player inventory size
+     * Returns the maximum player inventory size
      * @return The integer value for the player's maximum inventory size.
      */
     public int getMaxSlots(){

@@ -1,0 +1,11 @@
+package com.tanderson.items.wood.logs;
+
+import com.tanderson.items.Item;
+import com.tanderson.rds.ItemTableEntry;
+
+public class TreeBranch extends Item implements ItemTableEntry {
+
+    public TreeBranch() {
+        super("Tree Branch", true);
+    }
+}

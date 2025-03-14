@@ -45,8 +45,8 @@ public class PlayerTests {
         p.getPlayerSkills().getMiningSkill().setTotalXp(90);
 
         assertEquals(90, p.getPlayerSkills().getMiningSkill().getTotalXp());
-        assertEquals(4, p.getPlayerSkills().getMiningSkill().getCurrentLevel());
-        assertEquals(10, p.getPlayerSkills().getMiningSkill().getXpToNextLevel());
+        assertEquals(3, p.getPlayerSkills().getMiningSkill().getCurrentLevel());
+        assertEquals(60, p.getPlayerSkills().getMiningSkill().getXpToNextLevel());
     }
 
     @Test
@@ -56,7 +56,7 @@ public class PlayerTests {
         Player p2 = new Player("New Player", skills);
 
         assertEquals(90, p2.getPlayerSkills().getMiningSkill().getTotalXp());
-        assertEquals(4, p2.getPlayerSkills().getMiningSkill().getCurrentLevel());
-        assertEquals(10, p2.getPlayerSkills().getMiningSkill().getXpToNextLevel());
+        assertEquals(3, p2.getPlayerSkills().getMiningSkill().getCurrentLevel());
+        assertEquals(60, p2.getPlayerSkills().getMiningSkill().getXpToNextLevel());
     }
 }
