@@ -8,7 +8,7 @@ import com.tanderson.items.wood.logs.TreeBranch;
 public class Tool_Hammer_Stone extends CraftableItem {
 
     public Tool_Hammer_Stone() {
-        super("Stone Hammer", true, createRecipe());
+        super("Stone Hammer", false, createRecipe());
     }
 
     private static BasicRecipe createRecipe() {
