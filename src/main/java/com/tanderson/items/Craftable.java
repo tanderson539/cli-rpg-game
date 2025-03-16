@@ -1,6 +1,6 @@
 package com.tanderson.items;
 
-import com.tanderson.craftingSystem.BasicRecipe;
+import com.tanderson.systems.craftingSystem.BasicRecipe;
 
 public interface Craftable {
     BasicRecipe getCraftingRecipe();

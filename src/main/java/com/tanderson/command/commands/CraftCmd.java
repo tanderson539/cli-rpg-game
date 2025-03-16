@@ -1,7 +1,7 @@
 package com.tanderson.command.commands;
 
 import com.tanderson.GameContext;
-import com.tanderson.craftingSystem.CraftingRepo;
+import com.tanderson.systems.craftingSystem.CraftingRepo;
 import com.tanderson.items.CraftableItem;
 
 public class CraftCmd implements Command {

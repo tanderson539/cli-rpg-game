@@ -1,8 +1,8 @@
 package com.tanderson;
 
-import com.tanderson.craftingSystem.CraftingManager;
+import com.tanderson.systems.craftingSystem.CraftingManager;
 import com.tanderson.player.Player;
-import com.tanderson.rds.RDSRandom;
+import com.tanderson.systems.rds.RDSRandom;
 
 public class GameContext {
 

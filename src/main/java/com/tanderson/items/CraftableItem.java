@@ -1,7 +1,7 @@
 package com.tanderson.items;
 
-import com.tanderson.craftingSystem.CraftingIngredient;
-import com.tanderson.craftingSystem.BasicRecipe;
+import com.tanderson.systems.craftingSystem.CraftingIngredient;
+import com.tanderson.systems.craftingSystem.BasicRecipe;
 
 public class CraftableItem extends Item implements Craftable{
 

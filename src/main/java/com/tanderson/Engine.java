@@ -1,11 +1,10 @@
 package com.tanderson;
 
 import com.tanderson.command.CommandDispatcher;
-import com.tanderson.craftingSystem.CraftingManager;
+import com.tanderson.systems.craftingSystem.CraftingManager;
 import com.tanderson.display.Screen;
-import com.tanderson.display.TextAreaAppender;
 import com.tanderson.player.Player;
-import com.tanderson.rds.RDSRandom;
+import com.tanderson.systems.rds.RDSRandom;
 
 public class Engine {
 

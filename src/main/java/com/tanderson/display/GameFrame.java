@@ -32,7 +32,7 @@ public class GameFrame {
                 textArea.append("\n> " + userInput + "\n");
                 textField.setText("");
 
-                textArea.append(dispatcher.dispatch(userInput) + "\n");
+                textArea.append(dispatcher.dispatch(userInput));
             });
 
             frame.setVisible(true);

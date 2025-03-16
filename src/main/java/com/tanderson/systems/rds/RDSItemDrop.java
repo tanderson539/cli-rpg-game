@@ -1,4 +1,4 @@
-package com.tanderson.rds;
+package com.tanderson.systems.rds;
 
 import com.tanderson.items.Item;
 import com.tanderson.items.ItemRecord;

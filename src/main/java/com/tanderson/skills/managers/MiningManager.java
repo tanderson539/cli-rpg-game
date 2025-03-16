@@ -4,7 +4,7 @@ import com.tanderson.items.Item;
 import com.tanderson.items.ItemRecord;
 import com.tanderson.items.ores.*;
 import com.tanderson.player.Inventory;
-import com.tanderson.rds.tables.OreTable;
+import com.tanderson.systems.rds.tables.OreTable;
 import com.tanderson.skills.MiningSkill;
 
 import java.util.HashMap;

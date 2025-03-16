@@ -1,7 +1,7 @@
 package com.tanderson.items.ores;
 
 import com.tanderson.items.Item;
-import com.tanderson.rds.ItemTableEntry;
+import com.tanderson.systems.rds.ItemTableEntry;
 
 public class Ore_Copper extends Item implements ItemTableEntry {
 

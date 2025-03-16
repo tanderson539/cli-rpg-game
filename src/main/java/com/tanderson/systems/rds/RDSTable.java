@@ -1,4 +1,4 @@
-package com.tanderson.rds;
+package com.tanderson.systems.rds;
 
 import com.tanderson.display.TextAreaAppender;
 import com.tanderson.items.ItemRecord;

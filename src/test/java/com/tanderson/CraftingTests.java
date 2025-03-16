@@ -1,6 +1,6 @@
 package com.tanderson;
 
-import com.tanderson.craftingSystem.CraftingManager;
+import com.tanderson.systems.craftingSystem.CraftingManager;
 import com.tanderson.items.ingots.Ingot_Copper;
 import com.tanderson.items.ores.Ore_Coal;
 import com.tanderson.items.ores.Ore_Copper;

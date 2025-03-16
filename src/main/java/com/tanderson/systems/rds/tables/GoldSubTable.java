@@ -1,10 +1,10 @@
-package com.tanderson.rds.tables;
+package com.tanderson.systems.rds.tables;
 
 import com.tanderson.items.currency.Currency_Gold;
-import com.tanderson.rds.ItemTableEntry;
-import com.tanderson.rds.RDSItemDrop;
-import com.tanderson.rds.RDSObject;
-import com.tanderson.rds.RDSTable;
+import com.tanderson.systems.rds.ItemTableEntry;
+import com.tanderson.systems.rds.RDSItemDrop;
+import com.tanderson.systems.rds.RDSObject;
+import com.tanderson.systems.rds.RDSTable;
 
 public class GoldSubTable extends RDSTable {
 

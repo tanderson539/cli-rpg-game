@@ -1,4 +1,4 @@
-package com.tanderson.craftingSystem;
+package com.tanderson.systems.craftingSystem;
 
 import com.tanderson.items.CraftableItem;
 import com.tanderson.items.ItemRecord;

@@ -2,7 +2,7 @@ package com.tanderson.command.commands;
 
 import com.tanderson.GameContext;
 import com.tanderson.items.ItemRecord;
-import com.tanderson.rds.tables.OreTable;
+import com.tanderson.systems.rds.tables.OreTable;
 
 public class LootCmd implements Command {
     @Override

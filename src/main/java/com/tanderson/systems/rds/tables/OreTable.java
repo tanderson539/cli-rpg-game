@@ -1,7 +1,10 @@
-package com.tanderson.rds.tables;
+package com.tanderson.systems.rds.tables;
 
 import com.tanderson.items.ores.*;
-import com.tanderson.rds.*;
+import com.tanderson.systems.rds.ItemTableEntry;
+import com.tanderson.systems.rds.RDSItemDrop;
+import com.tanderson.systems.rds.RDSObject;
+import com.tanderson.systems.rds.RDSTable;
 
 public class OreTable extends RDSTable {
 
