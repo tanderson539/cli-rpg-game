@@ -122,7 +122,7 @@ public class CraftingTests {
 
         cm.craftItem(new Tool_Hammer_Stone());
 
-        assertEquals(2, p.getInventory().getAmountOfItem(new Tool_Hammer_Stone()));
+        assertEquals(1, p.getInventory().getAmountOfItem(new Tool_Hammer_Stone()));
         assertEquals(0, p.getInventory().getAmountOfItem(new Ore_Stone()));
         assertEquals(0, p.getInventory().getAmountOfItem(new TreeBranch()));
         assertEquals(1, p.getInventory().getUsedInventorySize());

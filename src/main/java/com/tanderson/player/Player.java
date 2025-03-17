@@ -1,6 +1,6 @@
 package com.tanderson.player;
 
-import com.tanderson.skills.managers.MiningManager;
+import com.tanderson.player.skills.managers.MiningManager;
 
 /**
  * Handles all data representing a player.

@@ -1,4 +1,4 @@
-package com.tanderson.skills;
+package com.tanderson.player.skills;
 
 public class ForgingSkill extends Skill {
     public ForgingSkill() {

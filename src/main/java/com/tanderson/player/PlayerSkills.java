@@ -1,8 +1,8 @@
 package com.tanderson.player;
 
-import com.tanderson.skills.ForgingSkill;
-import com.tanderson.skills.MiningSkill;
-import com.tanderson.skills.WoodcuttingSkill;
+import com.tanderson.player.skills.ForgingSkill;
+import com.tanderson.player.skills.MiningSkill;
+import com.tanderson.player.skills.WoodcuttingSkill;
 
 /**
  * Catch-all class for handling every skill a player will have access to.

@@ -12,7 +12,7 @@ public class Tool_Hammer_Stone extends CraftableItem {
     }
 
     private static BasicRecipe createRecipe() {
-        BasicRecipe recipe = new BasicRecipe(2);
+        BasicRecipe recipe = new BasicRecipe(1);
         recipe.addIngredient(new Ore_Stone(), 1);
         recipe.addIngredient(new TreeBranch(), 2);
 
