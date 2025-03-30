@@ -37,7 +37,7 @@
     </plugins>
   </build>
 
-  <version>0.0.1-24</version>
+  <version>0.0.1-25</version>
   <name>CLI-Game</name>
   <url>https://tanderson.dev</url>
 
