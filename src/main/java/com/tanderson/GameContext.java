@@ -1,5 +1,6 @@
 package com.tanderson;
 
+import com.tanderson.log.Logger;
 import com.tanderson.systems.craftingSystem.CraftingManager;
 import com.tanderson.player.Player;
 import com.tanderson.systems.rds.RDSRandom;
@@ -18,6 +19,7 @@ public class GameContext {
     private CraftingManager craftingManager;
     private RDSRandom random;
     private boolean isDevMode;
+    private Logger logger;
 
     /**
      *
@@ -26,11 +28,12 @@ public class GameContext {
      * @param random An RDSRandon object, allowing for random values to be created anywhere.
      * @param isDevMode A boolean representing if the game is in dev mode or not.
      */
-    public GameContext(Player player, CraftingManager craftingManager, RDSRandom random, boolean isDevMode) {
+    public GameContext(Player player, CraftingManager craftingManager, RDSRandom random, Logger logger, boolean isDevMode) {
         this.player = player;
         this.craftingManager = craftingManager;
         this.random = random;
         this.isDevMode = isDevMode;
+        this.logger = logger;
     }
 
     /**
@@ -71,5 +74,9 @@ public class GameContext {
      */
     public void setDevMode(boolean devMode) {
         isDevMode = devMode;
+    }
+
+    public Logger getLogger() {
+        return logger;
     }
 }

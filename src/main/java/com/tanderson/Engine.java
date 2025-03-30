@@ -1,6 +1,8 @@
 package com.tanderson;
 
 import com.tanderson.command.CommandDispatcher;
+import com.tanderson.log.LogLevel;
+import com.tanderson.log.Logger;
 import com.tanderson.systems.craftingSystem.CraftingManager;
 import com.tanderson.display.Screen;
 import com.tanderson.player.Player;
@@ -19,6 +21,11 @@ public class Engine {
     private CraftingManager craftingManager;
     private RDSRandom rand;
     private Screen screen;
+    private Logger logger;
+
+    public Engine(Logger logger) {
+        this.logger = logger;
+    }
 
     /**
      * Initializes the game by creating a new Player, crafting manager, RDSRandom, context,
@@ -28,11 +35,11 @@ public class Engine {
         this.player = new Player("Player 1");
         this.craftingManager = new CraftingManager(this.player.getInventory());
         this.rand = new RDSRandom();
-        this.context = new GameContext(this.player, this.craftingManager, this.rand, false);
+        this.context = new GameContext(this.player, this.craftingManager, this.rand, logger,false);
         this.dispatcher = new CommandDispatcher(this.context);
 
         this.screen = new Screen(this.dispatcher);
 
-        System.out.println("[INFO] - Game initialized");
+        logger.log("Game Initialized", LogLevel.INFO);
     }
 }

@@ -27,6 +27,7 @@ public class PlayerTests {
     @Test
     @DisplayName("is able to change the player's name.")
     void testPlayerNameChange(){
+        assertEquals("Test Player", this.p.getPlayerName());
         this.p.setPlayerName("New Player Name");
         assertEquals("New Player Name", this.p.getPlayerName());
     }
