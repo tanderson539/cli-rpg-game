@@ -1,7 +1,7 @@
 package com.tanderson.items.currency;
 
 import com.tanderson.items.Item;
-import com.tanderson.systems.rds.ItemTableEntry;
+import com.tanderson.systems.rds.interfaces.entries.ItemTableEntry;
 
 public class Currency_Gold extends Item implements ItemTableEntry {
 

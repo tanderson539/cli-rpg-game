@@ -49,6 +49,7 @@ public class CommandDispatcher {
      */
     private void createCommandsMap() {
         commands.put("hi", new HelloCmd());
+        commands.put("hello", new HelloCmd());
 
         commands.put("exit", new ExitCmd());
         commands.put("quit", new ExitCmd());
@@ -78,5 +79,9 @@ public class CommandDispatcher {
         commands.put("loot", new LootCmd());
 
         commands.put("craft", new CraftCmd());
+
+        commands.put("tile", new MapTileCommand());
+
+        commands.put("map", new RandomMapCommand());
     }
 }

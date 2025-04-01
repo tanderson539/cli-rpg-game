@@ -56,6 +56,7 @@ public class GameFrame {
 
         this.textArea = new JTextArea();
         this.textArea.setEditable(false);
+        this.textArea.setFont(new Font("Monospaced", Font.PLAIN, 12));
         JScrollPane scrollPane = new JScrollPane(textArea);
 
         this.textField = new JTextField();

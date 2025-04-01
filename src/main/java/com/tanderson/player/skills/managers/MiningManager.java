@@ -4,7 +4,7 @@ import com.tanderson.items.Item;
 import com.tanderson.items.ItemRecord;
 import com.tanderson.items.ores.*;
 import com.tanderson.player.Inventory;
-import com.tanderson.systems.rds.tables.OreTable;
+import com.tanderson.systems.rds.tables.OreItemTable;
 import com.tanderson.player.skills.MiningSkill;
 
 import java.util.HashMap;
@@ -42,7 +42,7 @@ public class MiningManager {
      * using the oreXpMap.
      */
     public void mine(){
-        OreTable table = new OreTable();
+        OreItemTable table = new OreItemTable();
 
         ItemRecord[] ores = table.runTable();
 

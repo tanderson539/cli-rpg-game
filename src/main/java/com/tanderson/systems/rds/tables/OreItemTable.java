@@ -1,14 +1,14 @@
 package com.tanderson.systems.rds.tables;
 
 import com.tanderson.items.ores.*;
-import com.tanderson.systems.rds.ItemTableEntry;
+import com.tanderson.systems.rds.interfaces.entries.ItemTableEntry;
 import com.tanderson.systems.rds.RDSItemDrop;
+import com.tanderson.systems.rds.RDSItemTable;
 import com.tanderson.systems.rds.RDSObject;
-import com.tanderson.systems.rds.RDSTable;
 
-public class OreTable extends RDSTable {
+public class OreItemTable extends RDSItemTable {
 
-    public OreTable() {
+    public OreItemTable() {
         super(1);
         RDSObject<ItemTableEntry> copperOre = new RDSItemDrop(new Ore_Copper(), 25.0);
         RDSObject<ItemTableEntry> ironOre = new RDSItemDrop(new Ore_Iron(), 22.5);

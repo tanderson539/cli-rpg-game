@@ -2,9 +2,10 @@ package com.tanderson.systems.rds;
 
 import com.tanderson.items.Item;
 import com.tanderson.items.ItemRecord;
+import com.tanderson.systems.rds.interfaces.entries.ItemTableEntry;
 
 /**
- * An object type used to hold methods and attributes associated with Item drops for an RDSTable.
+ * An object type used to hold methods and attributes associated with Item drops for an RDSItemTable.
  * Main Additions: Maximum drop amount & Minimum drop amount
  */
 public class RDSItemDrop extends RDSObject<ItemTableEntry> {
@@ -94,7 +95,7 @@ public class RDSItemDrop extends RDSObject<ItemTableEntry> {
     }
 
     /**
-     * Creates a new ItemRecord for use when this object is selected from an RDSTable. Automatically runs getDropAmount above
+     * Creates a new ItemRecord for use when this object is selected from an RDSItemTable. Automatically runs getDropAmount above
      * to determine how much of the item to drop.
      * @param rand An instance of the RDSRandom object for use in determining random numbers.
      * @return An ItemRecord to be dropped to the player.

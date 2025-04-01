@@ -4,7 +4,7 @@ import com.tanderson.systems.craftingSystem.BasicRecipe;
 import com.tanderson.items.CraftableItem;
 import com.tanderson.items.ores.Ore_Coal;
 import com.tanderson.items.ores.Ore_Copper;
-import com.tanderson.systems.rds.ItemTableEntry;
+import com.tanderson.systems.rds.interfaces.entries.ItemTableEntry;
 
 public class Ingot_Copper extends CraftableItem implements ItemTableEntry {
     public Ingot_Copper() {

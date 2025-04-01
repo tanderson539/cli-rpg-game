@@ -1,18 +1,20 @@
 package com.tanderson.systems.rds;
 
 import com.tanderson.items.Item;
+import com.tanderson.systems.rds.interfaces.IRDSObject;
+import com.tanderson.systems.rds.interfaces.entries.TableEntry;
 
 /**
  * Random Distribution System Object
- * An RDSObject is a datatype used to add a drop entry to an RDSTable. An RDSObject can support items, null values, other RDSTables,
+ * An RDSObject is a datatype used to add a drop entry to an RDSItemTable. An RDSObject can support items, null values, other RDSTables,
  * and anything else that can be represented as an entry to a drop table.
  * The probability is cumulative with everything in an RDS table. Meaning, a table with 2 items,
  * both with a probability of 1, means both items have a 50% chance of being selected.
  * @param <T> Must be an Object that implements TableEntry or its inheritors.
- * @see RDSTable
+ * @see RDSItemTable
  */
 
-public class RDSObject<T extends TableEntry> implements IRDSObject{
+public class RDSObject<T extends TableEntry> implements IRDSObject {
 
     private double probability;
     private boolean dropsAlways;
@@ -23,7 +25,7 @@ public class RDSObject<T extends TableEntry> implements IRDSObject{
 
     /**
      *
-     * @param associatedObject The object that can be chosen from a drop table. For example, an Item or an RDSTable.
+     * @param associatedObject The object that can be chosen from a drop table. For example, an Item or an RDSItemTable.
      * @param probability The probability, in double form, of this object being chosen by a table.
      */
     public RDSObject(T associatedObject, double probability){
@@ -37,7 +39,7 @@ public class RDSObject<T extends TableEntry> implements IRDSObject{
 
     /**
      *
-     * @param associatedObject The object that can be chosen from a drop table. For example, an Item or an RDSTable.
+     * @param associatedObject The object that can be chosen from a drop table. For example, an Item or an RDSItemTable.
      * @param probability The probability, in double form, of this object being chosen by a table.
      * @param dropsAlways A boolean representing if the item should always drop.
      * @param isUnique A boolean representing if the item can only drop once per table roll.

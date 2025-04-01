@@ -1,4 +1,4 @@
-package com.tanderson.systems.rds;
+package com.tanderson.systems.rds.interfaces;
 
 public interface IRDSObject {
     boolean isEnabled();

@@ -3,13 +3,13 @@ package com.tanderson.command.commands;
 import com.tanderson.GameContext;
 import com.tanderson.items.ItemRecord;
 import com.tanderson.log.LogLevel;
-import com.tanderson.systems.rds.tables.OreTable;
+import com.tanderson.systems.rds.tables.OreItemTable;
 
 public class LootCmd implements Command {
     @Override
     public String execute(String[] args, GameContext context) {
         if (context.isDevMode()) {
-            OreTable table = new OreTable();
+            OreItemTable table = new OreItemTable();
 
             ItemRecord[] items;
 
