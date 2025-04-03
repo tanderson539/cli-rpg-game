@@ -55,6 +55,12 @@ abstract class RDSTable<T extends TableEntry, U> {
         }
     }
 
+    public RDSTable(int totalDrops, int seed) {
+        this.totalDrops = totalDrops;
+        this.rand = new RDSRandom(seed);
+        this.table = new ArrayList<>();
+    }
+
     /**
      * Adds an RDSObject to the table ArrayList and returns a boolean stating if it was successful or not.
      * @param object An RDSObject with an associatedObject that extends or implements type TableEntry.
@@ -113,7 +119,7 @@ abstract class RDSTable<T extends TableEntry, U> {
         return totalDrops;
     }
 
-    public RDSRandom getRand() {
+    protected RDSRandom getRand() {
         return rand;
     }
 }

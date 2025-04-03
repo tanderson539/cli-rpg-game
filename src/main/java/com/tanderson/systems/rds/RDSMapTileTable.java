@@ -15,6 +15,10 @@ public class RDSMapTileTable extends RDSTable<MapTableEntry, MapTile> {
         super(table, 1);
     }
 
+    public RDSMapTileTable(int seed) {
+        super(1, seed);
+    }
+
     @Override
     public MapTile runTable() {
         if (this.getTable().isEmpty()) {

@@ -17,6 +17,10 @@ public class RDSItemTable extends RDSTable<ItemTableEntry, ItemRecord[]> impleme
         super(table, totalDrops);
     }
 
+    public RDSItemTable(int totalDrops, int seed) {
+        super(totalDrops, seed);
+    }
+
 
     /**
      * Uses table the ArrayList and attributes of its related RDSObjects to choose *totalDrops* amount of
