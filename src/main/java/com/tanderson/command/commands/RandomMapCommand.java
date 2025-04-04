@@ -8,12 +8,28 @@ public class RandomMapCommand implements Command {
 
     @Override
     public String execute(String[] args, GameContext context) {
-        int mapSize = 16;
+        int width, height;
+        if (args.length == 1) {
+            width = 16;
+            height = 16;
+        } else if (args.length == 2) {
+            int x = Integer.parseInt(args[1]);
+            width = x;
+            height = x;
+        } else {
+            width = Integer.parseInt(args[1]);
+            height = Integer.parseInt(args[2]);
+        }
 
-        if(args.length >= 2) mapSize = Integer.parseInt(args[1]);
 
-        Map map = new Map(mapSize, mapSize);
+        String out;
 
-        return map.printMap();
+        Map map = new Map(width, height);
+
+        out = map.printMap() + "\n\n";
+
+        out += map.printElevationMap() + "\n";
+
+        return out;
     }
 }

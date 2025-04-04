@@ -20,6 +20,6 @@ public class MapTileItemTable extends RDSMapTileTable {
         this.add(grassTile);
         this.add(oreTile);
         this.add(mountainTile);
-        this.add(waterTile);
+        //this.add(waterTile);
     }
 }
