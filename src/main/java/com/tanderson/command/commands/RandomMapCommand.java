@@ -28,7 +28,7 @@ public class RandomMapCommand implements Command {
 
         out = map.printMap() + "\n\n";
 
-        out += map.printElevationMap() + "\n";
+        out += map.printNoiseMap() + "\n";
 
         return out;
     }

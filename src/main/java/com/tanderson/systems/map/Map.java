@@ -1,6 +1,9 @@
 package com.tanderson.systems.map;
 
-import com.tanderson.systems.rds.tables.map.MapTileItemTable;
+import com.tanderson.systems.map.tiles.GrassTile;
+import com.tanderson.systems.map.tiles.MountainTile;
+import com.tanderson.systems.map.tiles.WaterTile;
+import com.tanderson.util.FastNoiseLite;
 
 import java.text.DecimalFormat;
 import java.util.Random;
@@ -8,7 +11,7 @@ import java.util.Random;
 public class Map {
 
     private MapTile[][] tileMap;
-    private int[][] elevationMap;
+    private float[][] noiseMap;
 
     private int width;
     private int height;
@@ -22,32 +25,22 @@ public class Map {
     public Map(int width, int height) {
         this.width = width;
         this.height = height;
-        this.elevationMap = new int[height][width];
-        this.generateElevationMap();
+        this.noiseMap = new float[height][width];
         this.tileMap = this.generateRandomMap(width, height);
     }
 
     public MapTile[][] generateRandomMap(int width, int height) {
         MapTile[][] map = new MapTile[height][width];
 
-        MapTileItemTable tileTable = new MapTileItemTable();
+        this.noiseMap = this.generateNoiseMap();
 
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
-                map[j][i] = tileTable.runTable();
+                map[j][i] = this.setTileOnNoise(noiseMap[j][i]);
             }
         }
 
         return map;
-    }
-
-    private void generateElevationMap() {
-        Random rand = new Random();
-        for (int x = 0; x < this.height; x++) {
-            for (int y = 0; y < this.width; y++) {
-                elevationMap[x][y] = rand.nextInt(100);
-            }
-        }
     }
 
     public String printMap() {
@@ -70,19 +63,73 @@ public class Map {
         return output.toString();
     }
 
-    public String printElevationMap() {
-        StringBuilder output = new StringBuilder();
-        DecimalFormat decFormat = new DecimalFormat("00");
+    public float[][] generateNoiseMap() {
+        FastNoiseLite noise = new FastNoiseLite();
 
-        for (int i = 0; i < elevationMap.length; i++) {
-            for (int j = 0; j < elevationMap[i].length; j++) {
-                output.append("[").append(decFormat.format(elevationMap[i][j])).append("]");
+        float[][] out = new float[height][width];
+
+        Random rand = new Random();
+        int seed = rand.nextInt();
+
+        noise.SetNoiseType(FastNoiseLite.NoiseType.OpenSimplex2S);
+        noise.SetSeed(seed);
+
+        for (int y = 0; y < this.height; y++) {
+            for (int x = 0; x < this.width; x++) {
+                out[y][x] = this.sumOctave(noise, 16, x, y, 1f, 0.07f, -1, 1);
+            }
+        }
+
+        return out;
+    }
+
+    public String printNoiseMap() {
+        StringBuilder output = new StringBuilder();
+        DecimalFormat decFormat = new DecimalFormat("0.00");
+
+        for (float[] floats : this.noiseMap) {
+            for (float aFloat : floats) {
+                output.append("[").append(decFormat.format(aFloat)).append("]");
             }
 
             output.append("\n");
         }
 
         return output.toString();
+    }
+
+    public MapTile setTileOnNoise(float noise) {
+        if (noise < 0) {
+            return new WaterTile();
+        } else if (noise >= 0 && noise < 0.5) {
+            return new GrassTile();
+        } else {
+            return new MountainTile();
+        }
+    }
+
+    private float sumOctave(FastNoiseLite noiseGen, int num_iterations, int x, int y, float persistence, float scale, float low, float high){
+        float maxAmp = 0;
+        float amp = 1;
+        float freq = scale;
+        float noise = 0;
+
+        for(int i = 0; i < num_iterations; i++){
+            noise += noiseGen.GetNoise(x * freq, y * freq) * amp;
+            maxAmp += amp;
+            amp *= persistence;
+            freq *= 2;
+        }
+
+        noise /= maxAmp;
+
+        noise = noise * (high - low) / 2 + (high + low) / 2;
+
+        return noise;
+    }
+
+    public MapTile getTile(int x, int y) {
+        return this.tileMap[y][x];
     }
 
     public MapTile[][] getTileMap() {
