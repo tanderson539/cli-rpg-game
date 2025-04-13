@@ -7,29 +7,30 @@ import com.tanderson.items.ingots.Ingot_Iron;
 import com.tanderson.items.ingots.Ingot_Silver;
 
 import java.util.ArrayList;
+import java.util.function.Supplier;
 
 public class CraftingRepo {
-    ArrayList<CraftableItem> craftableItemList;
+    ArrayList<Supplier<CraftableItem>> craftableItemList;
 
     public CraftingRepo() {
         this.craftableItemList = new ArrayList<>();
 
-        this.craftableItemList.add(new Ingot_Copper());
-        this.craftableItemList.add(new Ingot_Iron());
-        this.craftableItemList.add(new Ingot_Silver());
-        this.craftableItemList.add(new Ingot_Gold());
+        this.craftableItemList.add(Ingot_Copper::new);
+        this.craftableItemList.add(Ingot_Iron::new);
+        this.craftableItemList.add(Ingot_Silver::new);
+        this.craftableItemList.add(Ingot_Gold::new);
     }
 
     public CraftableItem getCraftableItem(int idx) {
         if(idx < 0 || idx >= this.craftableItemList.size()) return null;
-        return craftableItemList.get(idx);
+        return craftableItemList.get(idx).get();
     }
 
     public String printCraftableItemList() {
         StringBuilder out = new StringBuilder("Craftable Items:\n");
 
         for (int i = 0; i < craftableItemList.size(); i++) {
-            out.append(i).append(": ").append(craftableItemList.get(i).recipeToString()).append("\n");
+            out.append(i).append(": ").append(craftableItemList.get(i).get().recipeToString()).append("\n");
         }
 
         return out.toString();

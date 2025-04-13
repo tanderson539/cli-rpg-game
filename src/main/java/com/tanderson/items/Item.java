@@ -1,10 +1,13 @@
 package com.tanderson.items;
 
-public class Item {
+public abstract class Item {
     private final String name;
+    private final Long id;
     private final boolean isStackable;
+    private String description;
 
-    public Item(String name, boolean isStackable) {
+    public Item(Long id, String name, boolean isStackable) {
+        this.id = id;
         this.name = name;
         this.isStackable = isStackable;
     }
@@ -15,6 +18,14 @@ public class Item {
 
     public boolean isStackable() {
         return isStackable;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     @Override

@@ -83,5 +83,7 @@ public class CommandDispatcher {
         commands.put("tile", new MapTileCommand());
 
         commands.put("map", new RandomMapCommand());
+
+        commands.put("give", new GiveItemCommand());
     }
 }

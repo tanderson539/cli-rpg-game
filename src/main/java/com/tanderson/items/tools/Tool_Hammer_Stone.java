@@ -1,14 +1,16 @@
 package com.tanderson.items.tools;
 
+import com.tanderson.items.RegisteredItem;
 import com.tanderson.systems.craftingSystem.BasicRecipe;
 import com.tanderson.items.CraftableItem;
 import com.tanderson.items.ores.Ore_Stone;
-import com.tanderson.items.wood.logs.TreeBranch;
+import com.tanderson.items.wood.TreeBranch;
 
+@RegisteredItem(id = 100L)
 public class Tool_Hammer_Stone extends CraftableItem {
 
     public Tool_Hammer_Stone() {
-        super("Stone Hammer", false, createRecipe());
+        super(100L, "Stone Hammer", false, createRecipe());
     }
 
     private static BasicRecipe createRecipe() {

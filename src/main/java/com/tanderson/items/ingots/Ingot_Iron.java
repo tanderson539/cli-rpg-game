@@ -1,14 +1,16 @@
 package com.tanderson.items.ingots;
 
+import com.tanderson.items.RegisteredItem;
 import com.tanderson.systems.craftingSystem.BasicRecipe;
 import com.tanderson.items.CraftableItem;
 import com.tanderson.items.ores.Ore_Coal;
 import com.tanderson.items.ores.Ore_Iron;
 
+@RegisteredItem(id = 53L)
 public class Ingot_Iron extends CraftableItem {
 
     public Ingot_Iron() {
-        super("Iron Ingot", true, createRecipe());
+        super(53L, "Iron Ingot", true, createRecipe());
     }
 
     private static BasicRecipe createRecipe() {
