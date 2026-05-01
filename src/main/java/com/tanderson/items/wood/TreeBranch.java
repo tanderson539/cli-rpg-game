@@ -4,11 +4,11 @@ import com.tanderson.items.Item;
 import com.tanderson.items.RegisteredItem;
 import com.tanderson.systems.rds.interfaces.entries.ItemTableEntry;
 
-@RegisteredItem(id = 70L)
+@RegisteredItem(id = "branch_tree")
 public class TreeBranch extends Item implements ItemTableEntry {
 
     public TreeBranch() {
-        super(70L, "Tree Branch", true);
+        super("Tree Branch", true);
         this.setDescription("A thin, firm branch from a tree. It could probably be used as the handle for at tool.");
     }
 }

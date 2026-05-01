@@ -5,13 +5,13 @@ import java.util.HashMap;
 
 public class ItemFactory {
 
-    private static final HashMap<Long, Class<? extends Item>> itemMap = new HashMap<>();
+    private static final HashMap<String, Class<? extends Item>> itemMap = new HashMap<>();
 
-    public static void addItem(Long id, Class<? extends Item> constructor) {
+    public static void addItem(String id, Class<? extends Item> constructor) {
         itemMap.put(id, constructor);
     }
 
-    public static Item createItem(Long id) {
+    public static Item createItem(String id) {
         Class<? extends Item> constructor = itemMap.get(id);
 
         if (constructor != null) {
@@ -26,7 +26,7 @@ public class ItemFactory {
         throw new IllegalArgumentException("No item registered with ID: " + id);
     }
 
-    public static HashMap<Long, Class<? extends Item>> getItemMap() {
+    public static HashMap<String, Class<? extends Item>> getItemMap() {
         return itemMap;
     }
 }

@@ -6,11 +6,11 @@ import com.tanderson.items.CraftableItem;
 import com.tanderson.items.ores.Ore_Stone;
 import com.tanderson.items.wood.TreeBranch;
 
-@RegisteredItem(id = 100L)
+@RegisteredItem(id = "tool_hammer_stone")
 public class Tool_Hammer_Stone extends CraftableItem {
 
     public Tool_Hammer_Stone() {
-        super(100L, "Stone Hammer", false, createRecipe());
+        super( "Stone Hammer", false, createRecipe());
     }
 
     private static BasicRecipe createRecipe() {

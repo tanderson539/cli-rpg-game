@@ -7,10 +7,10 @@ import com.tanderson.items.ores.Ore_Coal;
 import com.tanderson.items.ores.Ore_Copper;
 import com.tanderson.systems.rds.interfaces.entries.ItemTableEntry;
 
-@RegisteredItem(id = 51L)
+@RegisteredItem(id = "ingot_copper")
 public class Ingot_Copper extends CraftableItem implements ItemTableEntry {
     public Ingot_Copper() {
-        super(51L, "Copper Ingot", true, createRecipe());
+        super( "Copper Ingot", true, createRecipe());
     }
 
     private static BasicRecipe createRecipe() {

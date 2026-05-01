@@ -4,10 +4,10 @@ import com.tanderson.items.Item;
 import com.tanderson.items.RegisteredItem;
 import com.tanderson.systems.rds.interfaces.entries.ItemTableEntry;
 
-@RegisteredItem(id = 25L)
+@RegisteredItem(id = "ore_coal")
 public class Ore_Coal extends Item implements ItemTableEntry {
 
     public Ore_Coal() {
-        super(25L, "Coal Ore", true);
+        super("Coal Ore", true);
     }
 }

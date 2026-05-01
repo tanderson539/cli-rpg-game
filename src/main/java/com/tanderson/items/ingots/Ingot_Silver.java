@@ -6,11 +6,11 @@ import com.tanderson.items.CraftableItem;
 import com.tanderson.items.ores.Ore_Coal;
 import com.tanderson.items.ores.Ore_Silver;
 
-@RegisteredItem(id = 54L)
+@RegisteredItem(id = "ingot_silver")
 public class Ingot_Silver extends CraftableItem {
 
     public Ingot_Silver() {
-        super(54L, "Silver Ingot", true, createRecipe());
+        super( "Silver Ingot", true, createRecipe());
     }
 
     private static BasicRecipe createRecipe() {

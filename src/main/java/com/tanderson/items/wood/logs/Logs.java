@@ -4,10 +4,10 @@ import com.tanderson.items.Item;
 import com.tanderson.items.RegisteredItem;
 import com.tanderson.systems.rds.interfaces.entries.ItemTableEntry;
 
-@RegisteredItem(id = 10L)
+@RegisteredItem(id = "logs")
 public class Logs extends Item implements ItemTableEntry {
     public Logs() {
-        super(10L, "Logs", true);
+        super( "Logs", true);
         this.setDescription("A bundle of logs from a tree.");
     }
 }

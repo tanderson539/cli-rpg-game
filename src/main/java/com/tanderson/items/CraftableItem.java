@@ -7,8 +7,8 @@ public class CraftableItem extends Item implements Craftable{
 
     private BasicRecipe recipe;
 
-    public CraftableItem(Long id, String name, boolean isStackable, BasicRecipe recipe){
-        super(id, name, isStackable);
+    public CraftableItem(String name, boolean isStackable, BasicRecipe recipe){
+        super(name, isStackable);
         this.recipe = recipe;
     }
 
@@ -22,12 +22,12 @@ public class CraftableItem extends Item implements Craftable{
     }
 
     public String recipeToString(){
-        String out = this.getName() + ": ";
+        StringBuilder out = new StringBuilder(this.getName() + ": ");
 
         for(CraftingIngredient ingredient : recipe.getRecipe()){
-            out += ingredient.getAmountRequired() + "x " + ingredient.getItem().getName() + " ";
+            out.append(ingredient.getAmountRequired()).append("x ").append(ingredient.getItem().getName()).append(" ");
         }
-        return out;
+        return out.toString();
     }
 
 }

@@ -74,7 +74,7 @@ public class Engine {
 
                 Class<? extends Item> item = itemClass.asSubclass(Item.class);
 
-                long id = itemClass.getAnnotation(RegisteredItem.class).id();
+                String id = itemClass.getAnnotation(RegisteredItem.class).id();
 
                 ItemFactory.addItem(id, item);
             }
