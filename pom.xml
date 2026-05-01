@@ -5,6 +5,10 @@
   <artifactId>CLI-Game</artifactId>
   <packaging>jar</packaging>
 
+  <properties>
+    <kotlin.version>2.2.21</kotlin.version>
+  </properties>
+
   <build>
     <plugins>
 
@@ -32,6 +36,12 @@
           <source>21</source>
           <target>21</target>
         </configuration>
+      </plugin>
+
+      <plugin>
+        <artifactId>kotlin-maven-plugin</artifactId>
+        <groupId>org.jetbrains.kotlin</groupId>
+        <version>2.2.21</version>
       </plugin>
 
     </plugins>
@@ -62,7 +72,7 @@
     <dependency>
       <groupId>org.apache.commons</groupId>
       <artifactId>commons-lang3</artifactId>
-      <version>3.17.0</version>
+      <version>3.18.0</version>
     </dependency>
 
     <!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-core -->

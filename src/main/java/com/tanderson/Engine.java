@@ -1,17 +1,22 @@
 package com.tanderson;
 
 import com.tanderson.command.CommandDispatcher;
+import com.tanderson.command.RegisteredCommand;
+import com.tanderson.command.RegisteredSlashCommand;
+import com.tanderson.command.commands.Command;
 import com.tanderson.items.Item;
 import com.tanderson.items.ItemFactory;
 import com.tanderson.items.RegisteredItem;
 import com.tanderson.log.LogLevel;
 import com.tanderson.log.Logger;
-import com.tanderson.systems.craftingSystem.CraftingManager;
+import com.tanderson.systems.crafting.CraftingManager;
 import com.tanderson.display.Screen;
 import com.tanderson.player.Player;
 import com.tanderson.systems.rds.RDSRandom;
 import org.reflections.Reflections;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Modifier;
 import java.util.Set;
 
 /**
@@ -47,6 +52,7 @@ public class Engine {
 
         this.screen = new Screen(this.dispatcher);
 
+        this.commandsInit();
 
         logger.log("Game Initialized", LogLevel.INFO);
     }
@@ -71,6 +77,60 @@ public class Engine {
                 long id = itemClass.getAnnotation(RegisteredItem.class).id();
 
                 ItemFactory.addItem(id, item);
+            }
+        }
+    }
+
+    private void commandsInit() {
+        Reflections reflections = new Reflections("com.tanderson.command.commands");
+
+        Set<Class<?>> commandClasses = reflections.getTypesAnnotatedWith(RegisteredCommand.class);
+        Set<Class<?>> slashCommandClasses = reflections.getTypesAnnotatedWith(RegisteredSlashCommand.class);
+
+        this.logger.log("Found " + commandClasses.size() + " command classes", LogLevel.INFO);
+        this.logger.log("Found " + slashCommandClasses.size() + " slash command classes", LogLevel.INFO);
+
+        for (Class<?> commandClass : commandClasses) {
+            try {
+                Command instance = (Command) commandClass.getDeclaredConstructor().newInstance();
+
+                RegisteredCommand annotation = commandClass.getAnnotation(RegisteredCommand.class);
+
+                if (annotation != null) {
+                    String[] aliases = annotation.aliases();
+
+                    for (String alias : aliases) {
+                        dispatcher.registerCommand(alias.toLowerCase(), instance);
+                        this.logger.log("Registered command: " + alias, LogLevel.INFO);
+                    }
+                }
+            } catch (NoSuchMethodException e) {
+                this.logger.log("Class " + commandClass.getSimpleName() + " is missing a no-args constructor!", LogLevel.ERROR);
+            } catch (Exception e) {
+                this.logger.log("Failed to instantiate " + commandClass.getSimpleName() + ": " + e.getMessage(), LogLevel.ERROR);
+            }
+        }
+
+        for (Class<?> slashCommandClass : slashCommandClasses) {
+            try {
+                Command instance = (Command) slashCommandClass.getDeclaredConstructor().newInstance();
+
+                RegisteredSlashCommand annotation = slashCommandClass.getAnnotation(RegisteredSlashCommand.class);
+
+                if (annotation != null) {
+                    String[] aliases = annotation.aliases();
+
+                    for (String alias : aliases) {
+                        dispatcher.registerSlashCommand(alias.toLowerCase(), instance);
+                        this.logger.log("Registered command: " + alias, LogLevel.INFO);
+                    }
+                } else {
+                    this.logger.log("Command " + slashCommandClass.getSimpleName() + " has no aliases. Skipping.", LogLevel.WARN);
+                }
+            } catch (NoSuchMethodException e) {
+                this.logger.log("Class " + slashCommandClass.getSimpleName() + " is missing a no-args constructor!", LogLevel.ERROR);
+            } catch (Exception e) {
+                this.logger.log("Failed to instantiate " + slashCommandClass.getSimpleName() + ": " + e.getMessage(), LogLevel.ERROR);
             }
         }
     }

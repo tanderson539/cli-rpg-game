@@ -1,8 +1,10 @@
 package com.tanderson.command.commands;
 
 import com.tanderson.GameContext;
+import com.tanderson.command.RegisteredCommand;
 import com.tanderson.log.LogLevel;
 
+@RegisteredCommand(aliases = {"exit", "quit", "x"})
 public class ExitCmd implements Command {
 
     @Override

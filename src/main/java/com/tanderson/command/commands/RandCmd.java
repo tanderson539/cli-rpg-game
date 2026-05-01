@@ -1,9 +1,11 @@
 package com.tanderson.command.commands;
 
 import com.tanderson.GameContext;
+import com.tanderson.command.RegisteredCommand;
 import com.tanderson.log.LogLevel;
 import org.apache.commons.lang3.StringUtils;
 
+@RegisteredCommand(aliases = {"rand"})
 public class RandCmd implements Command {
     @Override
     public String execute(String[] args, GameContext context) {

@@ -29,10 +29,21 @@ public class GameFrame {
 
             textField.addActionListener(e -> {
                 String userInput = textField.getText();
-                textArea.append("\n> " + userInput + "\n");
+
+                if (userInput.isEmpty()) {
+                    return;
+                }
+
+                String output = dispatcher.dispatch(userInput);
+
+                if (userInput.charAt(0) != '/') {
+                    textArea.append("\n> " + userInput);
+                }
+
+                textArea.append("\n");
                 textField.setText("");
 
-                textArea.append(dispatcher.dispatch(userInput));
+                textArea.append(output);
             });
 
             frame.setVisible(true);

@@ -1,7 +1,7 @@
 package com.tanderson.items.ingots;
 
 import com.tanderson.items.RegisteredItem;
-import com.tanderson.systems.craftingSystem.BasicRecipe;
+import com.tanderson.systems.crafting.BasicRecipe;
 import com.tanderson.items.CraftableItem;
 import com.tanderson.items.ores.Ore_Coal;
 import com.tanderson.items.ores.Ore_Copper;

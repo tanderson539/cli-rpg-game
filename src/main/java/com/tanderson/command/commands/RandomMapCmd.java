@@ -1,9 +1,11 @@
 package com.tanderson.command.commands;
 
 import com.tanderson.GameContext;
+import com.tanderson.command.RegisteredSlashCommand;
 import com.tanderson.systems.map.Map;
 
-public class RandomMapCommand implements Command {
+@RegisteredSlashCommand(aliases = {"map"})
+public class RandomMapCmd implements Command {
 
 
     @Override

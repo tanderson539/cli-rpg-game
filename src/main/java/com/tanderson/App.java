@@ -1,7 +1,6 @@
 package com.tanderson;
 
 import com.tanderson.log.ConsoleLogger;
-import com.tanderson.log.LogLevel;
 
 public class App {
     public static void main(String[] args) {

@@ -6,7 +6,7 @@ import com.tanderson.items.ingots.Ingot_Silver;
 import com.tanderson.items.ores.*;
 import com.tanderson.items.tools.Tool_Hammer_Stone;
 import com.tanderson.items.wood.TreeBranch;
-import com.tanderson.systems.craftingSystem.CraftingManager;
+import com.tanderson.systems.crafting.CraftingManager;
 import com.tanderson.items.ingots.Ingot_Copper;
 import com.tanderson.player.Player;
 import org.junit.jupiter.api.BeforeEach;

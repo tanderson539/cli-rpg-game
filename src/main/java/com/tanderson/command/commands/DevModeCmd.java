@@ -1,8 +1,10 @@
 package com.tanderson.command.commands;
 
 import com.tanderson.GameContext;
+import com.tanderson.command.RegisteredSlashCommand;
 import com.tanderson.log.LogLevel;
 
+@RegisteredSlashCommand(aliases = {"dev"})
 public class DevModeCmd implements Command {
     @Override
     public String execute(String[] args, GameContext context) {

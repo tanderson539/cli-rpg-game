@@ -6,7 +6,6 @@ import com.tanderson.GameContext;
  * Interface for all command-line runnable commands
  */
 public interface Command {
-
     /**
      * Template command to execute a command-line command.
      * @param args A String array of the entire command, args separated by a space.

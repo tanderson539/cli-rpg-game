@@ -1,12 +1,14 @@
 package com.tanderson.command.commands;
 
 import com.tanderson.GameContext;
+import com.tanderson.command.RegisteredCommand;
 import com.tanderson.log.LogLevel;
 
 /**
  * Handles logic for performing the 'level' command.
  * Prints out the player's levels for each skill in a human-readable format.
  */
+@RegisteredCommand(aliases = {"level", "lvl"})
 public class SkillLevelCmd implements Command {
     @Override
     public String execute(String[] args, GameContext context) {

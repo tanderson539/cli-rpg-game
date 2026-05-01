@@ -1,12 +1,13 @@
 package com.tanderson.command.commands;
 
 import com.tanderson.GameContext;
+import com.tanderson.command.RegisteredCommand;
 import com.tanderson.log.LogLevel;
 
+@RegisteredCommand(aliases = {"drop", "d"})
 public class DropItemCmd implements Command {
     @Override
     public String execute(String[] args, GameContext context) {
-        String out = "";
 
         if(args.length == 1 || args.length == 2){
             context.getLogger().log("Command " + args[0] + " was given with too few arguments.", LogLevel.WARN);
@@ -17,13 +18,13 @@ public class DropItemCmd implements Command {
                 int amount = Integer.parseInt(args[2]);
 
                 context.getPlayer().getInventory().removeItem(idx, amount);
-                out += "Dropped item successfully!";
                 context.getLogger().log("Player dropped an item successfully.", LogLevel.INFO);
+                return "Dropped item successfully!";
             } catch (NumberFormatException e) {
                 context.getLogger().log("Player attempted the drop command but did not provide integer arguments.", LogLevel.ERROR);
+                context.getLogger().log(e.getMessage(), LogLevel.ERROR);
                 return "Input must Integers.";
             }
         }
-        return out;
     }
 }

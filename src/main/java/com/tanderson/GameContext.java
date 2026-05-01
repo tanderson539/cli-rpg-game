@@ -1,7 +1,7 @@
 package com.tanderson;
 
 import com.tanderson.log.Logger;
-import com.tanderson.systems.craftingSystem.CraftingManager;
+import com.tanderson.systems.crafting.CraftingManager;
 import com.tanderson.player.Player;
 import com.tanderson.systems.rds.RDSRandom;
 

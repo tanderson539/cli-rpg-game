@@ -1,4 +1,4 @@
-package com.tanderson.systems.craftingSystem;
+package com.tanderson.systems.crafting;
 
 import com.tanderson.items.CraftableItem;
 import com.tanderson.items.ingots.Ingot_Copper;

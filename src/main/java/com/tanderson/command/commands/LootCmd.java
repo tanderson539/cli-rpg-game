@@ -1,11 +1,13 @@
 package com.tanderson.command.commands;
 
 import com.tanderson.GameContext;
+import com.tanderson.command.RegisteredSlashCommand;
 import com.tanderson.items.ItemRecord;
 import com.tanderson.log.LogLevel;
 import com.tanderson.systems.rds.tables.OreItemTable;
 import org.apache.commons.lang3.StringUtils;
 
+@RegisteredSlashCommand(aliases = {"loot"})
 public class LootCmd implements Command {
     @Override
     public String execute(String[] args, GameContext context) {

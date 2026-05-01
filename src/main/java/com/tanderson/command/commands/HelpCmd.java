@@ -1,7 +1,9 @@
 package com.tanderson.command.commands;
 
 import com.tanderson.GameContext;
+import com.tanderson.command.RegisteredSlashCommand;
 
+@RegisteredSlashCommand(aliases = {"help"})
 public class HelpCmd implements Command {
 
     @Override

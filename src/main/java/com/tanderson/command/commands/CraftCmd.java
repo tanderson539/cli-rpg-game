@@ -1,11 +1,12 @@
 package com.tanderson.command.commands;
 
 import com.tanderson.GameContext;
+import com.tanderson.command.RegisteredCommand;
 import com.tanderson.log.LogLevel;
-import com.tanderson.systems.craftingSystem.CraftingRepo;
+import com.tanderson.systems.crafting.CraftingRepo;
 import com.tanderson.items.CraftableItem;
 
-
+@RegisteredCommand(aliases = {"craft", "c"})
 public class CraftCmd implements Command {
     @Override
     public String execute(String[] args, GameContext context) {
