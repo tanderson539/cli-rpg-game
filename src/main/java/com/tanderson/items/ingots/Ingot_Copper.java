@@ -1,6 +1,7 @@
 package com.tanderson.items.ingots;
 
 import com.tanderson.items.RegisteredItem;
+import com.tanderson.items.tools.Tool_Hammer_Stone;
 import com.tanderson.systems.crafting.BasicRecipe;
 import com.tanderson.items.CraftableItem;
 import com.tanderson.items.ores.Ore_Coal;
@@ -17,6 +18,7 @@ public class Ingot_Copper extends CraftableItem implements ItemTableEntry {
         BasicRecipe recipe = new BasicRecipe(2);
         recipe.addIngredient(new Ore_Copper(), 2);
         recipe.addIngredient(new Ore_Coal(), 1);
+        recipe.addIngredient(new Tool_Hammer_Stone(), 1, false);
 
         return recipe;
     }

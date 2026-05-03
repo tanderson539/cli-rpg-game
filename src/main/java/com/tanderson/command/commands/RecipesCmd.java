@@ -9,7 +9,7 @@ import com.tanderson.systems.crafting.CraftingRepo;
 public class RecipesCmd implements Command {
     @Override
     public String execute(String[] args, GameContext context) {
-        context.getLogger().log("Player ran recipes command.", LogLevel.INFO);
+        context.getLogger().info("Player ran recipes command.");
         CraftingRepo repo = new CraftingRepo();
         return repo.printCraftableItemList();
     }

@@ -15,11 +15,11 @@ public class CraftCmd implements Command {
         CraftableItem itemToCraft = repo.getCraftableItem(Integer.parseInt(args[1]));
 
         if(itemToCraft == null){
-            context.getLogger().log("Attempted to craft an item, but it was not found.", LogLevel.WARN);
+            context.getLogger().warn("Attempted to craft an item, but it was not found.");
             return "Recipe not found";
         }
 
-        context.getLogger().log("Attempting to craft item: " + itemToCraft.getName(), LogLevel.INFO);
+        context.getLogger().info("Attempting to craft item: " + itemToCraft.getName());
         return context.getCraftingManager().craftItem(itemToCraft);
     }
 }

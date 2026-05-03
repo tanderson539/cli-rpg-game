@@ -13,6 +13,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import javax.tools.Tool;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 @DisplayName("Crafting Tests")
@@ -33,19 +35,20 @@ public class CraftingTests {
     void craftCopperIngot() {
         p.getInventory().addItem(new Ore_Copper(), 2);
         p.getInventory().addItem(new Ore_Coal(), 1);
+        p.getInventory().addItem(new Tool_Hammer_Stone(), 1);
 
         assertTrue(cm.canCraft(new Ingot_Copper().getCraftingRecipe()));
 
         assertEquals(2, p.getInventory().getAmountOfItem(new Ore_Copper()));
         assertEquals(1, p.getInventory().getAmountOfItem(new Ore_Coal()));
-        assertEquals(2, p.getInventory().getUsedInventorySize());
+        assertEquals(3, p.getInventory().getUsedInventorySize());
 
         cm.craftItem(new Ingot_Copper());
 
         assertEquals(2, p.getInventory().getAmountOfItem(new Ingot_Copper()));
         assertEquals(0, p.getInventory().getAmountOfItem(new Ore_Copper()));
         assertEquals(0, p.getInventory().getAmountOfItem(new Ore_Coal()));
-        assertEquals(1, p.getInventory().getUsedInventorySize());
+        assertEquals(2, p.getInventory().getUsedInventorySize());
     }
 
     @Test

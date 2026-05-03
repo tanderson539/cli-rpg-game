@@ -10,11 +10,11 @@ public class DevModeCmd implements Command {
     public String execute(String[] args, GameContext context) {
         if (context.isDevMode()) {
             context.setDevMode(false);
-            context.getLogger().log("Player disabled Dev Mode", LogLevel.INFO);
+            context.getLogger().info("Player disabled Dev Mode");
             return "Dev mode disabled";
         } else {
             context.setDevMode(true);
-            context.getLogger().log("Player enabled Dev Mode", LogLevel.INFO);
+            context.getLogger().info("Player enabled Dev Mode");
             return "Dev mode enabled";
         }
     }

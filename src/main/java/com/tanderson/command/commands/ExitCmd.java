@@ -9,7 +9,7 @@ public class ExitCmd implements Command {
 
     @Override
     public String execute(String[] args, GameContext context) {
-        context.getLogger().log("Exiting game due to player command...", LogLevel.INFO);
+        context.getLogger().info("Exiting game due to player command...");
         System.exit(0);
         return "exiting...";
     }

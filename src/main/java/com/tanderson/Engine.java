@@ -54,7 +54,7 @@ public class Engine {
 
         this.commandsInit();
 
-        logger.log("Game Initialized", LogLevel.INFO);
+        logger.info("Game Initialized");
     }
 
     /**
@@ -67,7 +67,7 @@ public class Engine {
 
         Set<Class<?>> itemClasses = reflections.getTypesAnnotatedWith(RegisteredItem.class);
 
-        this.logger.log("Found " + itemClasses.size() + " item classes", LogLevel.INFO);
+        this.logger.info("Found " + itemClasses.size() + " item classes");
 
         for(Class<?> itemClass : itemClasses) {
             if(Item.class.isAssignableFrom(itemClass)) {
@@ -87,8 +87,8 @@ public class Engine {
         Set<Class<?>> commandClasses = reflections.getTypesAnnotatedWith(RegisteredCommand.class);
         Set<Class<?>> slashCommandClasses = reflections.getTypesAnnotatedWith(RegisteredSlashCommand.class);
 
-        this.logger.log("Found " + commandClasses.size() + " command classes", LogLevel.INFO);
-        this.logger.log("Found " + slashCommandClasses.size() + " slash command classes", LogLevel.INFO);
+        this.logger.info("Found " + commandClasses.size() + " command classes");
+        this.logger.info("Found " + slashCommandClasses.size() + " slash command classes");
 
         for (Class<?> commandClass : commandClasses) {
             try {
@@ -101,13 +101,13 @@ public class Engine {
 
                     for (String alias : aliases) {
                         dispatcher.registerCommand(alias.toLowerCase(), instance);
-                        this.logger.log("Registered command: " + alias, LogLevel.INFO);
+                        this.logger.debug("Registered command: " + alias);
                     }
                 }
             } catch (NoSuchMethodException e) {
-                this.logger.log("Class " + commandClass.getSimpleName() + " is missing a no-args constructor!", LogLevel.ERROR);
+                this.logger.error("Class " + commandClass.getSimpleName() + " is missing a no-args constructor!");
             } catch (Exception e) {
-                this.logger.log("Failed to instantiate " + commandClass.getSimpleName() + ": " + e.getMessage(), LogLevel.ERROR);
+                this.logger.error("Failed to instantiate " + commandClass.getSimpleName() + ": " + e.getMessage());
             }
         }
 
@@ -122,15 +122,15 @@ public class Engine {
 
                     for (String alias : aliases) {
                         dispatcher.registerSlashCommand(alias.toLowerCase(), instance);
-                        this.logger.log("Registered command: " + alias, LogLevel.INFO);
+                        this.logger.debug("Registered command: " + alias);
                     }
                 } else {
-                    this.logger.log("Command " + slashCommandClass.getSimpleName() + " has no aliases. Skipping.", LogLevel.WARN);
+                    this.logger.warn("Command " + slashCommandClass.getSimpleName() + " has no aliases. Skipping.");
                 }
             } catch (NoSuchMethodException e) {
-                this.logger.log("Class " + slashCommandClass.getSimpleName() + " is missing a no-args constructor!", LogLevel.ERROR);
+                this.logger.error("Class " + slashCommandClass.getSimpleName() + " is missing a no-args constructor!");
             } catch (Exception e) {
-                this.logger.log("Failed to instantiate " + slashCommandClass.getSimpleName() + ": " + e.getMessage(), LogLevel.ERROR);
+                this.logger.error("Failed to instantiate " + slashCommandClass.getSimpleName() + ": " + e.getMessage());
             }
         }
     }

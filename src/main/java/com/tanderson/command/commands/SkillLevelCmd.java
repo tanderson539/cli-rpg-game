@@ -12,7 +12,7 @@ import com.tanderson.log.LogLevel;
 public class SkillLevelCmd implements Command {
     @Override
     public String execute(String[] args, GameContext context) {
-        context.getLogger().log("Player ran level command.", LogLevel.INFO);
+        context.getLogger().info("Player ran level command.");
         String out = "";
         out += context.getPlayer().getPlayerSkills().getMiningSkill().printSkillInfo() + "\n\n";
         out += context.getPlayer().getPlayerSkills().getWoodcuttingSkill().printSkillInfo() + "\n\n";

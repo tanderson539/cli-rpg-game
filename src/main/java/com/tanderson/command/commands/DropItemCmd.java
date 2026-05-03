@@ -10,7 +10,7 @@ public class DropItemCmd implements Command {
     public String execute(String[] args, GameContext context) {
 
         if(args.length == 1 || args.length == 2){
-            context.getLogger().log("Command " + args[0] + " was given with too few arguments.", LogLevel.WARN);
+            context.getLogger().warn("Command " + args[0] + " was given with too few arguments.");
             return "too few arguments, please type an inventory index and an amount";
         }else {
             try{
@@ -18,11 +18,11 @@ public class DropItemCmd implements Command {
                 int amount = Integer.parseInt(args[2]);
 
                 context.getPlayer().getInventory().removeItem(idx, amount);
-                context.getLogger().log("Player dropped an item successfully.", LogLevel.INFO);
+                context.getLogger().info("Player dropped an item successfully.");
                 return "Dropped item successfully!";
             } catch (NumberFormatException e) {
-                context.getLogger().log("Player attempted the drop command but did not provide integer arguments.", LogLevel.ERROR);
-                context.getLogger().log(e.getMessage(), LogLevel.ERROR);
+                context.getLogger().error("Player attempted the drop command but did not provide integer arguments.");
+                context.getLogger().error(e.getMessage());
                 return "Input must Integers.";
             }
         }

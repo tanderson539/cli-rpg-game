@@ -18,10 +18,10 @@ public class RandCmd implements Command {
                     max = Double.parseDouble(args[1]);
                 }
             }
-            context.getLogger().log("Player ran rand command with max of: " + max, LogLevel.INFO);
+            context.getLogger().info("Player ran rand command with max of: " + max);
             out += ("Rand (max possible: " + max + "):\n" + context.getRandom().genDouble(max));
         } else {
-            context.getLogger().log("Player attempted to run rand while not in Dev Mode.", LogLevel.INFO);
+            context.getLogger().info("Player attempted to run rand while not in Dev Mode.");
             out += "Invalid command";
         }
         return out;

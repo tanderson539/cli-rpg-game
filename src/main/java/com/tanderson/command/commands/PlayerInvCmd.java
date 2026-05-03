@@ -8,7 +8,7 @@ import com.tanderson.log.LogLevel;
 public class PlayerInvCmd implements Command {
     @Override
     public String execute(String[] args, GameContext context) {
-        context.getLogger().log("Player ran inv command.", LogLevel.INFO);
+        context.getLogger().info("Player ran inv command.");
         return context.getPlayer().getInventory().printInventory();
     }
 }
